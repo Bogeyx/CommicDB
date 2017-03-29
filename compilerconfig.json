@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/site.css",
+    "inputFile": "wwwroot/css/site.scss"
+  },
+  {
+    "outputFile": "wwwroot/systemjs.config.min.js",
+    "inputFile": "wwwroot/systemjs.config.js"
+  }
+]

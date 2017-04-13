@@ -1,5 +1,5 @@
 "use strict";
-var cookie_1 = require("./_Entities/cookie");
+var cookie_1 = require("./Entities/cookie");
 var Global = (function () {
     function Global() {
     }
@@ -49,25 +49,7 @@ var Global = (function () {
     Global.deleteCookie = function (name) {
         return cookie_1.Cookie.delete(name, "/");
     };
-    // verschlüsselt ein Passwort
-    Global.encryptPasswort = function (password) {
-        return sha384(password);
-    };
-    // verschleiert ein Passwort für den Cookie
-    Global.blurPasswort = function (cryptPassword) {
-        if (cryptPassword) {
-            var out = "";
-            for (var i = 0; i < cryptPassword.length; i++) {
-                var c = cryptPassword.charAt(i);
-                out += c >= 'A' && c <= 'Z' ? c.toLowerCase() : (c >= 'a' && c <= 'z' ? c.toUpperCase() : c);
-            }
-            return out.split('').reverse().join('');
-        }
-        else {
-            return cryptPassword;
-        }
-    };
     return Global;
 }());
 exports.Global = Global;
-//# sourceMappingURL=global.js.map
+//# sourceMappingURL=Global.js.map

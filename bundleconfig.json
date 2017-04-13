@@ -10,7 +10,8 @@
     "outputFileName": "dist/vendor.min.js",
     "inputFiles": [
       "node_modules/core-js/client/shim.min.js",
-      "node_modules/zone.js/dist/zone.min.js"
+      "node_modules/zone.js/dist/zone.min.js",
+      "node_modules/jquery/dist/jquery.min.js"
     ]
   }
 ]

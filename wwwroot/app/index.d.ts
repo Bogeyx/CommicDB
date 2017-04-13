@@ -1,1 +1,0 @@
-﻿declare function select(selector: string): NodeListOf<Element>;

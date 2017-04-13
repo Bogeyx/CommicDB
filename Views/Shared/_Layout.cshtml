@@ -17,6 +17,7 @@
 
     @* Prerequirements *@
     <environment names="Development">
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
         <script src="node_modules/core-js/client/shim.min.js"></script>
         <script src="node_modules/zone.js/dist/zone.min.js"></script>
     </environment>
@@ -34,6 +35,10 @@
     </environment>
 </head>
 <body>
+    <environment names="Development">
+        <div class="debuginfo" style="position:absolute;font-size:11pt">
+        </div>
+    </environment>
 
     @RenderBody()
 

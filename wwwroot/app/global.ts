@@ -1,11 +1,12 @@
-﻿import { Cookie } from "./_Entities/cookie";
-
-declare function sha384(value: string): string;
+﻿import { Cookie } from "./Entities/cookie";
+import { DataService } from "./Services/data.service";
 
 export class Global {
     public static isDebug: boolean;
 
     public static sessionValid: boolean;
+
+    public static server: DataService;
 
     // wirft eine sichtbare Fehlermeldung
     public static throwError(error: string): any {
@@ -62,24 +63,5 @@ export class Global {
 
     public static deleteCookie(name: string) {
         return Cookie.delete(name, "/");
-    }
-
-    // verschlüsselt ein Passwort
-    public static encryptPasswort(password: string): string {
-        return sha384(password);
-    }
-
-    // verschleiert ein Passwort für den Cookie
-    public static blurPasswort(cryptPassword: string): string {
-        if (cryptPassword) {
-            let out = "";
-            for (var i = 0; i < cryptPassword.length; i++) {
-                var c = cryptPassword.charAt(i);
-                out += c >= 'A' && c <= 'Z' ? c.toLowerCase() : (c >= 'a' && c <= 'z' ? c.toUpperCase() : c);
-            }
-            return out.split('').reverse().join('');
-        } else {
-            return cryptPassword;
-        }
     }
 }

@@ -1,17 +1,29 @@
-﻿body {
-  padding-top: 50px;
-  padding-bottom: 20px; }
+﻿.initial-loadingWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 100%;
+  height: 100%; }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-  padding-left: 15px;
-  padding-right: 15px; }
+.initial-loading {
+  width: 50%;
+  margin: auto;
+  border-radius: 0px; }
+  .initial-loading.initial {
+    margin: 0; }
+  .initial-loading .progress-bar {
+    background-color: #E30614;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.15) 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.15) 75%, transparent 75%, transparent);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.12) 50%, rgba(0, 0, 0, 0.12) 75%, transparent 75%, transparent); }
 
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-  max-width: 280px; }
+.progress.active .progress-bar, .progress-bar.active {
+  -webkit-transition: none;
+  -o-transition: none;
+  transition: none; }
+  .progress.active .progress-bar.topMargin, .progress-bar.active.topMargin {
+    margin-top: 40px; }
 
-/*# sourceMappingURL=data:application/json;base64,ewoJInZlcnNpb24iOiAzLAoJImZpbGUiOiAiLi4vd3d3cm9vdC9jc3Mvc2l0ZS5jc3MiLAoJInNvdXJjZXMiOiBbCgkJIi4uL3d3d3Jvb3QvY3NzL3NpdGUuc2NzcyIKCV0sCgkibWFwcGluZ3MiOiAiQUFBQSxBQUFBLElBQUksQ0FBQztFQUNELFdBQVcsRUFBRSxJQUFLO0VBQ2xCLGNBQWMsRUFBRSxJQUFLLEdBQ3hCOztBQUVELHNCQUFzQjtBQUN0QixtRUFBbUU7QUFDbkUsQUFBQSxhQUFhLENBQUM7RUFDVixZQUFZLEVBQUUsSUFBSztFQUNuQixhQUFhLEVBQUUsSUFBSyxHQUN2Qjs7QUFFRCxxRUFBcUU7QUFDckUsQUFBQSxLQUFLO0FBQ0wsQUFBQSxNQUFNO0FBQ04sQUFBQSxRQUFRLENBQUM7RUFDTCxTQUFTLEVBQUUsS0FBTSxHQUNwQiIsCgkibmFtZXMiOiBbXQp9 */
+/*# sourceMappingURL=data:application/json;base64,ewoJInZlcnNpb24iOiAzLAoJImZpbGUiOiAiLi4vd3d3cm9vdC9jc3Mvc2l0ZS5jc3MiLAoJInNvdXJjZXMiOiBbCgkJIi4uL3d3d3Jvb3QvY3NzL3NpdGUuc2NzcyIsCgkJIi4uL3d3d3Jvb3QvY3NzL3ZhcmlhYmxlcy5zY3NzIgoJXSwKCSJtYXBwaW5ncyI6ICJBQUVBLEFBQUEsdUJBQXVCLENBQUM7RUFDcEIsT0FBTyxFQUFFLElBQUs7RUFDZCxjQUFjLEVBQUUsTUFBTztFQUN2QixXQUFXLEVBQUUsTUFBTztFQUNwQixlQUFlLEVBQUUsTUFBTztFQUN4QixNQUFNLEVBQUUsSUFBSztFQUNiLEtBQUssRUFBRSxJQUFLO0VBQ1osTUFBTSxFQUFFLElBQUssR0FDaEI7O0FBRUQsQUFBQSxnQkFBZ0IsQ0FBQztFQUNiLEtBQUssRUFBRSxHQUFJO0VBQ1gsTUFBTSxFQUFFLElBQUs7RUFDYixhQUFhLEVBQUUsR0FBSSxHQVl0QjtFQWZELEFBQUEsZ0JBQWdCLEFBS1gsUUFBUSxDQUFDO0lBQ04sTUFBTSxFQUFFLENBQUUsR0FDYjtFQVBMLEFBU0ksZ0JBVFksQ0FTWixhQUFhLENBQUM7SUFDVixnQkFBZ0IsRUN0QmYsT0FBTztJRHVCUixnQkFBZ0IsRUFBRSwrS0FBdUI7SUFDekMsZ0JBQWdCLEVBQUUsMEtBQWtCO0lBQ3BDLGdCQUFnQixFQUFFLHVLQUFlLEdBQ3BDOztBQUdMLEFBQWlCLFNBQVIsQUFBQSxPQUFPLENBQUMsYUFBYSxFQUFFLEFBQWEsYUFBQSxBQUFBLE9BQU8sQ0FBQztFQUNqRCxrQkFBa0IsRUFBRSxJQUFLO0VBQ3pCLGFBQWEsRUFBRSxJQUFLO0VBQ3BCLFVBQVUsRUFBRSxJQUFLLEdBS3BCO0VBUkQsQUFBaUIsU0FBUixBQUFBLE9BQU8sQ0FBQyxhQUFhLEFBS3pCLFVBQVUsRUFMaUIsQUFBYSxhQUFBLEFBQUEsT0FBTyxBQUsvQyxVQUFVLENBQUM7SUFDUixVQUFVLEVBQUUsSUFBSyxHQUNwQiIsCgkibmFtZXMiOiBbXQp9 */

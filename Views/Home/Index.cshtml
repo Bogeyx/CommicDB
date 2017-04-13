@@ -19,11 +19,11 @@
 
         if (performance) {
             $('.progress-bar')[0].style.width = "0%";
-            performance.setResourceTimingBufferSize(350);
+            performance.setResourceTimingBufferSize(400);
 
             loadingInterval = setInterval(function () {
                 let count = performance.getEntries().filter(function (i) { return i.responseEnd > 0; }).length;
-                $('.progress-bar')[0].style.width = (count * 100 / 300) + "%";
+                $('.progress-bar')[0].style.width = (count * 100 / 350) + "%";
             }, 25);
         }
 

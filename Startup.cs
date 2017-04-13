@@ -20,6 +20,7 @@ namespace CommicDB
     {
         public Startup(IHostingEnvironment env)
         {
+            env.EnvironmentName = "Development";
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)

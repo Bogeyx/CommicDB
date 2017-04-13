@@ -28,9 +28,6 @@
     <Content Include="wwwroot\app\mainBuild.js" />
     <Content Include="wwwroot\app\mainBuild.js.map" />
     <Content Include="wwwroot\app\mainBuild.ts" />
-    <Content Include="wwwroot\app\Pages\test - Copy.component.ts">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\app\Pages\test.component.html" />
     <Content Include="wwwroot\app\Pages\test.component.ts" />
     <Content Include="wwwroot\app\Services\data.service.js" />
@@ -67,11 +64,6 @@
 
   <ItemGroup>
     <Folder Include="dist\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <ProjectReference Include="..\Brotli.NETCORE\Brotli.NETCORE.csproj" />
   </ItemGroup>
 
 

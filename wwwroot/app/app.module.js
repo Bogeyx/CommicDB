@@ -26,6 +26,9 @@ var AppModule = (function () {
         this.server = server;
         // Laden zuende
         clearInterval((loadingInterval));
+        if (performance) {
+            performance.clearResourceTimings();
+        }
         // Globals
         Global_1.Global.isDebug = $(".debuginfo").length > 0;
         Global_1.Global.server = server;

@@ -42,6 +42,9 @@ export class AppModule {
     constructor(private http: Http, private server: DataService) {
         // Laden zuende
         clearInterval((loadingInterval));
+        if (performance) {
+            performance.clearResourceTimings();
+        }
 
         // Globals
         Global.isDebug = $(".debuginfo").length > 0;

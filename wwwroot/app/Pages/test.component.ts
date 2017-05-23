@@ -26,6 +26,14 @@ export class TestComponent implements OnInit {
         Global.server.getTags().subscribe(result => {
             this.tags = result;
         });
+
+        Global.server.getUserByName("TestUser").subscribe(result => {
+            console.log(result);
+        });
+
+        Global.server.getComicById(1).subscribe(comic => {
+            console.log(comic);
+        });
     }
 
     ngOnInit(): void {

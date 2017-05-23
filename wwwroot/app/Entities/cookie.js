@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Class Cookie - Holds static functions to deal with Cookies
  */

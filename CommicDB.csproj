@@ -19,6 +19,7 @@
     <Content Include="wwwroot\app\Entities\cookie.js" />
     <Content Include="wwwroot\app\Entities\cookie.js.map" />
     <Content Include="wwwroot\app\Entities\cookie.ts" />
+    <Content Include="wwwroot\app\Entities\dbObjects.ts" />
     <Content Include="wwwroot\app\global.js" />
     <Content Include="wwwroot\app\Global.js.map" />
     <Content Include="wwwroot\app\global.ts" />
@@ -51,6 +52,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0-preview1-25305-02" />
   </ItemGroup>
 
 

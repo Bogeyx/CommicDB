@@ -41,9 +41,56 @@ var DataService = (function (_super) {
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
-    // ruft alle Namen der vorhandenen Übersetzungsdateien ab
+    // get
     DataService.prototype.getTags = function () {
         return this.http.get("/data/GetTags")
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.getUserByName = function (username) {
+        return this.http.get("/data/GetUserByName?username=" + username)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.getListById = function (id) {
+        return this.http.get("/data/GetListById?id=" + id)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.getComicById = function (id) {
+        return this.http.get("/data/GetComicById?id=" + id)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    // addOrUpdate
+    DataService.prototype.addOrList = function (list) {
+        return this.http.post("/data/AddList", list)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.addOrComic = function (comic) {
+        return this.http.post("/data/AddComic", comic)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.addOrUser = function (user) {
+        return this.http.post("/data/AddUser", user)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    // remove
+    DataService.prototype.removeList = function (id) {
+        return this.http.get("/data/RemoveList?id=" + id)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.removeComic = function (id) {
+        return this.http.get("/data/RemoveComic?id=" + id)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.removeUser = function (userName) {
+        return this.http.get("/data/RemoveUser?name=", userName)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };

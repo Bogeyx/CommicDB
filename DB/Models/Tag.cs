@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using CommicDB.Utility;
 
 namespace CommicDB.DB.Models
 {
@@ -10,7 +11,9 @@ namespace CommicDB.DB.Models
         [Key]
         public string Name { get; set; }
 
-        public ICollection<TagComicRelation> Comics { get; set; }
-        public ICollection<TagListRelation> Lists { get; set; }
+        [NavigationProperty]
+        public List<TagComicRelation> Comics { get; set; }
+        [NavigationProperty]
+        public List<TagListRelation> Lists { get; set; }
     }
 }

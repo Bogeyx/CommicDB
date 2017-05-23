@@ -26,17 +26,11 @@ namespace CommicDB.DB
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TagComicRelation>()
-                .HasKey(c => new { c.ComicId, c.Tag });
+                .HasKey(c => new { c.ComicId, c.TagName });
             modelBuilder.Entity<TagListRelation>()
-                .HasKey(c => new { c.ListId, c.Tag });
+                .HasKey(c => new { c.ListId, c.TagName });
             modelBuilder.Entity<ListComicRelation>()
                 .HasKey(c => new { c.ListId, c.ComicId });
-            modelBuilder.Entity<List>()
-            .HasOne(l => l.Parent)
-            .WithMany(l => l.SubLists)
-            .HasForeignKey(l => l.ParentId)
-            .HasConstraintName("ForeignKey_List_SubList")
-            .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace CommicDB
 {
@@ -26,8 +27,6 @@ namespace CommicDB
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
-
-            //Environment.SetEnvironmentVariable("ADONET_DATA_DIR", Directory.GetCurrentDirectory());
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -36,14 +35,17 @@ namespace CommicDB
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            }); ;
             services.AddResponseCompression(options =>
             {
                 options.EnableForHttps = true;
                 options.Providers.Add<BrotliCompressionProvider>();
             });
 
-            var connString = Configuration.GetConnectionString("DefaultConnection").Replace("{path}", Path.Combine(Directory.GetCurrentDirectory(), "CommicDB.mdf"));
+            var connString = Configuration.GetConnectionString("DefaultConnection")
+                .Replace("D:\\Visual Studio\\ComicDB\\CommicDB\\CommicDB.mdf", Path.Combine(Directory.GetCurrentDirectory(), "CommicDB.mdf"));
             services.AddDbContext<ComicDBContext>(options => options.UseSqlServer(connString));
         }
 

@@ -21,11 +21,14 @@ namespace CommicDB.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Author");
+                    b.Property<string>("Author")
+                        .IsRequired();
 
-                    b.Property<string>("Discription");
+                    b.Property<string>("Discription")
+                        .IsRequired();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<DateTime>("Release");
 
@@ -39,17 +42,19 @@ namespace CommicDB.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
-                    b.Property<int>("ParentId");
+                    b.Property<int?>("ParentId");
 
-                    b.Property<int>("UserId");
+                    b.Property<string>("UserName")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserName");
 
                     b.ToTable("Lists");
                 });
@@ -81,11 +86,9 @@ namespace CommicDB.Migrations
                 {
                     b.Property<int>("ComicId");
 
-                    b.Property<string>("Tag");
-
                     b.Property<string>("TagName");
 
-                    b.HasKey("ComicId", "Tag");
+                    b.HasKey("ComicId", "TagName");
 
                     b.HasIndex("TagName");
 
@@ -96,11 +99,9 @@ namespace CommicDB.Migrations
                 {
                     b.Property<int>("ListId");
 
-                    b.Property<string>("Tag");
-
                     b.Property<string>("TagName");
 
-                    b.HasKey("ListId", "Tag");
+                    b.HasKey("ListId", "TagName");
 
                     b.HasIndex("TagName");
 
@@ -109,20 +110,20 @@ namespace CommicDB.Migrations
 
             modelBuilder.Entity("CommicDB.DB.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Username")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
                     b.Property<string>("Options");
 
-                    b.Property<string>("Password");
+                    b.Property<string>("Password")
+                        .IsRequired();
 
                     b.Property<DateTime>("RegistrationDate");
 
-                    b.Property<string>("Username");
-
-                    b.HasKey("Id");
+                    b.HasKey("Username");
 
                     b.ToTable("Users");
                 });
@@ -131,12 +132,11 @@ namespace CommicDB.Migrations
                 {
                     b.HasOne("CommicDB.DB.Models.List", "Parent")
                         .WithMany("SubLists")
-                        .HasForeignKey("ParentId")
-                        .HasConstraintName("ForeignKey_List_SubList");
+                        .HasForeignKey("ParentId");
 
                     b.HasOne("CommicDB.DB.Models.User", "User")
                         .WithMany("Lists")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserName")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -160,9 +160,10 @@ namespace CommicDB.Migrations
                         .HasForeignKey("ComicId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CommicDB.DB.Models.Tag")
+                    b.HasOne("CommicDB.DB.Models.Tag", "Tag")
                         .WithMany("Comics")
-                        .HasForeignKey("TagName");
+                        .HasForeignKey("TagName")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CommicDB.DB.Models.TagListRelation", b =>
@@ -172,9 +173,10 @@ namespace CommicDB.Migrations
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CommicDB.DB.Models.Tag")
+                    b.HasOne("CommicDB.DB.Models.Tag", "Tag")
                         .WithMany("Lists")
-                        .HasForeignKey("TagName");
+                        .HasForeignKey("TagName")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

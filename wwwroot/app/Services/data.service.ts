@@ -22,4 +22,11 @@ export class DataService extends ServiceBase {
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
+
+    // ruft alle Namen der vorhandenen Übersetzungsdateien ab
+    getTags(): Observable<string[]> {
+        return this.http.get("/data/GetTags")
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
 }

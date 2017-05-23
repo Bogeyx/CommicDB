@@ -11,7 +11,8 @@ import { Global } from "../Global";
 
 export class TestComponent implements OnInit {
     public getTest: string;
-    public postTest:string
+    public postTest: string
+    public tags: string[];
 
     constructor() {
         Global.server.exampleGet().subscribe(result => {
@@ -20,6 +21,10 @@ export class TestComponent implements OnInit {
 
         Global.server.examplePost().subscribe(result => {
             this.postTest = result + " funktioniert";
+        });
+
+        Global.server.getTags().subscribe(result => {
+            this.tags = result;
         });
     }
 

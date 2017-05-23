@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Loader;
+using CommicDB.DB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -27,6 +26,8 @@ namespace CommicDB
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            //Environment.SetEnvironmentVariable("ADONET_DATA_DIR", Directory.GetCurrentDirectory());
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -41,14 +42,19 @@ namespace CommicDB
                 options.EnableForHttps = true;
                 options.Providers.Add<BrotliCompressionProvider>();
             });
+
+            var connString = Configuration.GetConnectionString("DefaultConnection").Replace("{path}", Path.Combine(Directory.GetCurrentDirectory(), "CommicDB.mdf"));
+            services.AddDbContext<ComicDBContext>(options => options.UseSqlServer(connString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ComicDBContext comicDB)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             app.UseResponseCompression();
+            comicDB.Database.Migrate();
+
 
             if (env.IsDevelopment())
             {

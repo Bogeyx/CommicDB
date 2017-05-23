@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Global_1 = require("../Global");
 var TestComponent = (function () {
@@ -18,6 +19,9 @@ var TestComponent = (function () {
         });
         Global_1.Global.server.examplePost().subscribe(function (result) {
             _this.postTest = result + " funktioniert";
+        });
+        Global_1.Global.server.getTags().subscribe(function (result) {
+            _this.tags = result;
         });
     }
     TestComponent.prototype.ngOnInit = function () {

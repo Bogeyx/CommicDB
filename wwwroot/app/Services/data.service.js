@@ -42,8 +42,8 @@ var DataService = (function (_super) {
             .catch(this.handleServerError);
     };
     // get
-    DataService.prototype.getTags = function () {
-        return this.http.get("/data/GetTags")
+    DataService.prototype.getAllTags = function () {
+        return this.http.get("/data/GetAllTags")
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
@@ -52,8 +52,8 @@ var DataService = (function (_super) {
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
-    DataService.prototype.getListById = function (id) {
-        return this.http.get("/data/GetListById?id=" + id)
+    DataService.prototype.getListWithDataById = function (id) {
+        return this.http.get("/data/GetListWithDataById?id=" + id)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
@@ -63,18 +63,28 @@ var DataService = (function (_super) {
             .catch(this.handleServerError);
     };
     // addOrUpdate
-    DataService.prototype.addOrList = function (list) {
-        return this.http.post("/data/AddList", list)
+    DataService.prototype.addOrUpdateList = function (list) {
+        return this.http.post("/data/AddOrUpdateList", list)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
-    DataService.prototype.addOrComic = function (comic) {
-        return this.http.post("/data/AddComic", comic)
+    DataService.prototype.addOrUpdateComic = function (comic) {
+        return this.http.post("/data/AddOrUpdateComic", comic)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
-    DataService.prototype.addOrUser = function (user) {
-        return this.http.post("/data/AddUser", user)
+    DataService.prototype.addOrUpdateUser = function (user) {
+        return this.http.post("/data/AddOrUpdateUser", user)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.addTagToList = function (rel) {
+        return this.http.post("/data/AddTagToList", rel)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.addTagToComic = function (rel) {
+        return this.http.post("/data/AddTagToComic", rel)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
@@ -91,6 +101,16 @@ var DataService = (function (_super) {
     };
     DataService.prototype.removeUser = function (userName) {
         return this.http.get("/data/RemoveUser?name=", userName)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.removeTagFromList = function (rel) {
+        return this.http.post("/data/RemoveTagFromList", rel)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.removeTagFromComic = function (rel) {
+        return this.http.post("/data/RemoveTagFromComic", rel)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };

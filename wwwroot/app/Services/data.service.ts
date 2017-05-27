@@ -27,8 +27,8 @@ export class DataService extends ServiceBase {
 
 
     // get
-    getTags(): Observable<string[]> {
-        return this.http.get("/data/GetTags")
+    getAllTags(): Observable<Tag[]> {
+        return this.http.get("/data/GetAllTags")
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
@@ -39,8 +39,8 @@ export class DataService extends ServiceBase {
             .catch(this.handleServerError);
     }
 
-    getListById(id: number): Observable<List> {
-        return this.http.get("/data/GetListById?id=" + id, )
+    getListWithDataById(id: number): Observable<List> {
+        return this.http.get("/data/GetListWithDataById?id=" + id, )
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
@@ -53,40 +53,64 @@ export class DataService extends ServiceBase {
 
 
     // addOrUpdate
-    addOrList(list: List): Observable<List> {
-        return this.http.post("/data/AddList", list)
+    addOrUpdateList(list: List): Observable<List> {
+        return this.http.post("/data/AddOrUpdateList", list)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
 
-    addOrComic(comic: Comic): Observable<Comic> {
-        return this.http.post("/data/AddComic", comic)
+    addOrUpdateComic(comic: Comic): Observable<Comic> {
+        return this.http.post("/data/AddOrUpdateComic", comic)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
 
-    addOrUser(user: User): Observable<any> {
-        return this.http.post("/data/AddUser", user)
+    addOrUpdateUser(user: User): Observable<User> {
+        return this.http.post("/data/AddOrUpdateUser", user)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+
+    addTagToList(rel: TagListRelation): Observable<boolean> {
+        return this.http.post("/data/AddTagToList", rel)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+
+    addTagToComic(rel: TagComicRelation): Observable<boolean> {
+        return this.http.post("/data/AddTagToComic", rel)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
 
 
     // remove
-    removeList(id: number): Observable<List> {
+    removeList(id: number): Observable<boolean> {
         return this.http.get("/data/RemoveList?id=" + id)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
 
-    removeComic(id: number): Observable<Comic> {
+    removeComic(id: number): Observable<boolean> {
         return this.http.get("/data/RemoveComic?id=" + id)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
 
-    removeUser(userName: string): Observable<any> {
+    removeUser(userName: string): Observable<boolean> {
         return this.http.get("/data/RemoveUser?name=", userName)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+
+    removeTagFromList(rel: TagListRelation): Observable<boolean> {
+        return this.http.post("/data/RemoveTagFromList", rel)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+
+    removeTagFromComic(rel: TagComicRelation): Observable<boolean> {
+        return this.http.post("/data/RemoveTagFromComic", rel)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }

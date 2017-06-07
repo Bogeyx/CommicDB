@@ -3,6 +3,7 @@ import { Http } from "@angular/http";
 
 import { AppComponent } from "../app.component";
 import { Global } from "../Global";
+import { User, List, Comic, Tag, ListComicRelation, TagComicRelation, TagListRelation } from "../Entities/dbObjects";
 
 @Component({
     moduleId: module.id,
@@ -12,7 +13,7 @@ import { Global } from "../Global";
 export class TestComponent implements OnInit {
     public getTest: string;
     public postTest: string
-    public tags: string[];
+    public tags: Tag[];
 
     constructor() {
         Global.server.exampleGet().subscribe(result => {
@@ -23,9 +24,10 @@ export class TestComponent implements OnInit {
             this.postTest = result + " funktioniert";
         });
 
-        Global.server.getTags().subscribe(result => {
+        Global.server.getAllTags().subscribe(result => {
             this.tags = result;
         });
+
 
         Global.server.getUserByName("TestUser").subscribe(result => {
             console.log(result);

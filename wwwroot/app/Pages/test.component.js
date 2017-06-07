@@ -20,7 +20,7 @@ var TestComponent = (function () {
         Global_1.Global.server.examplePost().subscribe(function (result) {
             _this.postTest = result + " funktioniert";
         });
-        Global_1.Global.server.getTags().subscribe(function (result) {
+        Global_1.Global.server.getAllTags().subscribe(function (result) {
             _this.tags = result;
         });
         Global_1.Global.server.getUserByName("TestUser").subscribe(function (result) {

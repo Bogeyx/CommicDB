@@ -32,6 +32,8 @@ var TestComponent = (function () {
     }
     TestComponent.prototype.ngOnInit = function () {
     };
+    TestComponent.prototype.onClick = function (e) {
+    };
     return TestComponent;
 }());
 TestComponent = __decorate([

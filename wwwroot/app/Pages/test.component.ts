@@ -40,4 +40,7 @@ export class TestComponent implements OnInit {
 
     ngOnInit(): void {
     }
+
+    onClick(e : MouseEvent) {
+    }
 }

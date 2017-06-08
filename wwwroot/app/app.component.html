@@ -1,7 +1,12 @@
 ﻿<div class="container noMargin">
     <div class="backgroundContainer">
         <div class="container body-content">
-            <router-outlet></router-outlet>
+            <div class="col-xs-3">
+                <sidebar></sidebar>
+            </div>
+            <div class="col-xs-9">
+                <router-outlet></router-outlet>
+            </div>
         </div>
     </div>
 </div>

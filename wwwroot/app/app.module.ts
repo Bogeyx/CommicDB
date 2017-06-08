@@ -12,6 +12,7 @@ import { AppComponent } from "./app.component";
 import { Global } from "./Global";
 import { DataService } from "./Services/data.service";
 import { TestComponent } from "./Pages/test.component";
+import { SidebarComponent } from "./Pages/sidebar.component";
 
 declare var loadingInterval: any;
 
@@ -32,7 +33,8 @@ declare var loadingInterval: any;
 
     declarations: [
         AppComponent,
-        TestComponent
+        TestComponent,
+        SidebarComponent
     ],
     exports: [AppComponent],
     bootstrap: [AppComponent]

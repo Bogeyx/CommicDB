@@ -4,7 +4,7 @@ import { Observable } from "rxjs/Rx";
 
 import { ServiceBase } from "./ServiceBase";
 import { Global } from "../Global";
-import { User, List, Comic, Tag, ListComicRelation, TagComicRelation, TagListRelation } from "../Entities/dbObjects";
+import { User, List, Comic, Tag, ListComicRelation, TagComicRelation, TagListRelation, SearchResult, Issue, Volume } from "../Entities/dbObjects";
 
 @Injectable()
 export class DataService extends ServiceBase {
@@ -111,6 +111,24 @@ export class DataService extends ServiceBase {
 
     removeTagFromComic(rel: TagComicRelation): Observable<boolean> {
         return this.http.post("/data/RemoveTagFromComic", rel)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+
+
+    // API
+    apiSearch(text:string): Observable<SearchResult> {
+        return this.http.get("/data/Search?text=" + text)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+    apiGetIssue(id: number): Observable<Issue> {
+        return this.http.get("/data/GetIssue?id=" + id)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+    apiGetVolume(id: number): Observable<Volume> {
+        return this.http.get("/data/GetVolume?id=" + id)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }

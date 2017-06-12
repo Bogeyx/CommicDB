@@ -42,4 +42,23 @@ var TagListRelation = (function () {
     return TagListRelation;
 }());
 exports.TagListRelation = TagListRelation;
+/* API */
+var SearchResult = (function () {
+    function SearchResult() {
+    }
+    return SearchResult;
+}());
+exports.SearchResult = SearchResult;
+var Issue = (function () {
+    function Issue() {
+    }
+    return Issue;
+}());
+exports.Issue = Issue;
+var Volume = (function () {
+    function Volume() {
+    }
+    return Volume;
+}());
+exports.Volume = Volume;
 //# sourceMappingURL=dbObjects.js.map

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using CommicDB.Controllers;
 using CommicDB.DB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +19,9 @@ namespace CommicDB
 {
     public class Startup
     {
+        public static string APIKEY = "f65041c032be86da24e07882e341c3c2363bed7a";
+        public static string FULLAPIKEY = "?api_key=" + APIKEY;
+
         public Startup(IHostingEnvironment env)
         {
             env.EnvironmentName = "Development";
@@ -56,7 +60,6 @@ namespace CommicDB
             loggerFactory.AddDebug();
             app.UseResponseCompression();
             comicDB.Database.Migrate();
-
 
             if (env.IsDevelopment())
             {

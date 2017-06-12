@@ -3,7 +3,7 @@ import { Http } from "@angular/http";
 
 import { AppComponent } from "../app.component";
 import { Global } from "../Global";
-import { User, List, Comic, Tag, ListComicRelation, TagComicRelation, TagListRelation } from "../Entities/dbObjects";
+import { User, List, Comic, Tag, ListComicRelation, TagComicRelation, TagListRelation, SearchResult, Issue, Volume } from "../Entities/dbObjects";
 
 @Component({
     moduleId: module.id,
@@ -14,6 +14,7 @@ export class TestComponent implements OnInit {
     public getTest: string;
     public postTest: string
     public tags: Tag[];
+    public searchResult: SearchResult;
 
     constructor() {
         Global.server.exampleGet().subscribe(result => {
@@ -33,8 +34,8 @@ export class TestComponent implements OnInit {
             console.log(result);
         });
 
-        Global.server.getComicById(1).subscribe(comic => {
-            console.log(comic);
+        Global.server.apiSearch("Batman").subscribe(result => {
+            this.searchResult = result;
         });
     }
 

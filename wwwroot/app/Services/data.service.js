@@ -114,6 +114,22 @@ var DataService = (function (_super) {
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
+    // API
+    DataService.prototype.apiSearch = function (text) {
+        return this.http.get("/data/Search?text=" + text)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.apiGetIssue = function (id) {
+        return this.http.get("/data/GetIssue?id=" + id)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.apiGetVolume = function (id) {
+        return this.http.get("/data/GetVolume?id=" + id)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
     return DataService;
 }(ServiceBase_1.ServiceBase));
 DataService = __decorate([

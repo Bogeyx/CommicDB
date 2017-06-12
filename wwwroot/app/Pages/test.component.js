@@ -26,8 +26,8 @@ var TestComponent = (function () {
         Global_1.Global.server.getUserByName("TestUser").subscribe(function (result) {
             console.log(result);
         });
-        Global_1.Global.server.getComicById(1).subscribe(function (comic) {
-            console.log(comic);
+        Global_1.Global.server.apiSearch("Batman").subscribe(function (result) {
+            _this.searchResult = result;
         });
     }
     TestComponent.prototype.ngOnInit = function () {

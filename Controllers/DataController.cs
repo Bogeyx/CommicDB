@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using CommicDB.DB;
 using CommicDB.DB.Models;
 using CommicDB.Utility;
+using CommicDB.Utility.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -271,6 +274,68 @@ namespace CommicDB.Controllers
             }
 
             this._comicDB.SaveChanges();
+        }
+
+        /// <summary>
+        /// Liefert die 10 besten Suchergebnisse zurück
+        /// </summary>
+        /// <param name="text">Suchtext</param>
+        /// <returns></returns>
+        public async Task<SearchResult> Search(string text)
+        {
+            var searchResult = new SearchResult();
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+
+                var query = "https://comicvine.gamespot.com/api/search/?api_key=" + Startup.APIKEY + "&query=" + text;
+                var result = await client.GetAsync(query);
+                var xml = await result.Content.ReadAsStringAsync();
+                XDocument doc = XDocument.Parse(xml);
+                searchResult.Issues = doc.Root.Element("results").Elements("issue").Select(e => new Issue(e)).ToList();
+                searchResult.Volumes = doc.Root.Element("results").Elements("volume").Select(e => new Volume(e)).ToList();
+            }
+
+            return searchResult;
+        }
+
+        /// <summary>
+        /// Liefert die 10 besten Suchergebnisse zurück
+        /// </summary>
+        /// <param name="text">Suchtext</param>
+        /// <returns></returns>
+        public async Task<Issue> GetIssue(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+
+                var query = "https://comicvine.gamespot.com/api/issue/4000-" + id + "?api_key=" + Startup.APIKEY;
+                var result = await client.GetAsync(query);
+                var xml = await result.Content.ReadAsStringAsync();
+                XDocument doc = XDocument.Parse(xml);
+                return new Issue(doc.Root.Element("results"));
+            }
+        }
+
+        /// <summary>
+        /// Liefert die 10 besten Suchergebnisse zurück
+        /// </summary>
+        /// <param name="text">Suchtext</param>
+        /// <returns></returns>
+        public async Task<Volume> GetVolume(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+
+                var query = "https://comicvine.gamespot.com/api/volume/4050-" + id + "?api_key=" + Startup.APIKEY;
+                var result = await client.GetAsync(query);
+                var xml = await result.Content.ReadAsStringAsync();
+                XDocument doc = XDocument.Parse(xml);
+                return new Volume(doc.Root.Element("results"));
+            }
         }
     }
 }

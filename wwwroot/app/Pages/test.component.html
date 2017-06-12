@@ -8,3 +8,20 @@
 <ul>
     <li *ngFor="let tag of tags">{{tag.name}}</li>
 </ul>
+
+
+<h1>API Test: Suche nach Batman</h1>
+<div *ngIf="searchResult">
+    <h2>Issues</h2>
+    <ul>
+        <li *ngFor="let issue of searchResult.issues">
+            {{issue.name}}
+            <br />
+            Heft: {{issue.issueNumber}}
+        </li>
+    </ul>
+    <h2>Volumes</h2>
+    <ul>
+        <li *ngFor="let volume of searchResult.volumes">{{volume.name}}</li>
+    </ul>
+</div>

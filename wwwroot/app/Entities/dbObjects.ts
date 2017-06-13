@@ -1,21 +1,4 @@
-﻿export class Comic {
-    /*[Key]*/
-    public id: number;
-    /*[Required]*/
-    public name: string;
-    /*[Required]*/
-    public discription: string;
-    /*[Required]*/
-    public author: string;
-    /*[Required]*/
-    public release: Date;
-    /*[NavigationProperty]*/
-    public lists: ListComicRelation[];
-    /*[NavigationProperty]*/
-    public tags: TagComicRelation[];
-}
-
-export class User {
+﻿export class User {
     /*[Key]*/
     public username: string;
     /*[Required]*/
@@ -32,8 +15,6 @@ export class User {
 export class Tag {
     /*[Key]*/
     public name: string;
-    /*[NavigationProperty]*/
-    public comics: TagComicRelation[];
     /*[NavigationProperty]*/
     public lists: TagListRelation[];
 }
@@ -62,18 +43,7 @@ export class ListComicRelation {
     public comicId: number;
     public listId: number;
     /*[NavigationProperty]*/
-    public comic: Comic;
-    /*[NavigationProperty]*/
     public list: List;
-}
-export class TagComicRelation {
-    public comicId: number;
-    /*[Required]*/
-    public tagName: string;
-    /*[NavigationProperty]*/
-    public tag: Tag;
-    /*[NavigationProperty]*/
-    public comic: Comic;
 }
 export class TagListRelation {
     public listId: number;

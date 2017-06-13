@@ -16,27 +16,6 @@ namespace CommicDB.Migrations
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CommicDB.DB.Models.Comic", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Author")
-                        .IsRequired();
-
-                    b.Property<string>("Discription")
-                        .IsRequired();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<DateTime>("Release");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Comics");
-                });
-
             modelBuilder.Entity("CommicDB.DB.Models.List", b =>
                 {
                     b.Property<int>("Id")
@@ -67,8 +46,6 @@ namespace CommicDB.Migrations
 
                     b.HasKey("ListId", "ComicId");
 
-                    b.HasIndex("ComicId");
-
                     b.ToTable("ListComics");
                 });
 
@@ -80,19 +57,6 @@ namespace CommicDB.Migrations
                     b.HasKey("Name");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("CommicDB.DB.Models.TagComicRelation", b =>
-                {
-                    b.Property<int>("ComicId");
-
-                    b.Property<string>("TagName");
-
-                    b.HasKey("ComicId", "TagName");
-
-                    b.HasIndex("TagName");
-
-                    b.ToTable("ComicTags");
                 });
 
             modelBuilder.Entity("CommicDB.DB.Models.TagListRelation", b =>
@@ -142,27 +106,9 @@ namespace CommicDB.Migrations
 
             modelBuilder.Entity("CommicDB.DB.Models.ListComicRelation", b =>
                 {
-                    b.HasOne("CommicDB.DB.Models.Comic", "Comic")
-                        .WithMany("Lists")
-                        .HasForeignKey("ComicId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("CommicDB.DB.Models.List", "List")
                         .WithMany("Comics")
                         .HasForeignKey("ListId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CommicDB.DB.Models.TagComicRelation", b =>
-                {
-                    b.HasOne("CommicDB.DB.Models.Comic", "Comic")
-                        .WithMany("Tags")
-                        .HasForeignKey("ComicId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CommicDB.DB.Models.Tag", "Tag")
-                        .WithMany("Comics")
-                        .HasForeignKey("TagName")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

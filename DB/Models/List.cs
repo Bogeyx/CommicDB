@@ -21,10 +21,10 @@ namespace CommicDB.DB.Models
         [NavigationProperty]
         public List Parent { get; set; }
         [NavigationProperty]
-        public List<List> SubLists { get; set; }
+        public List<List> SubLists { get; set; } = new List<List>();
         [NavigationProperty]
-        public List<ListComicRelation> Comics { get; set; }
+        public List<ListComicRelation> Comics { get; set; } = new List<ListComicRelation>();
         [NavigationProperty]
-        public List<TagListRelation> Tags { get; set; }
+        public List<TagListRelation> Tags { get; set; } = new List<TagListRelation>();
     }
 }

@@ -3,7 +3,7 @@ import { Http } from "@angular/http";
 
 import { AppComponent } from "../app.component";
 import { Global } from "../Global";
-import { User, List, Comic, Tag, ListComicRelation, TagComicRelation, TagListRelation, SearchResult, Issue, Volume } from "../Entities/dbObjects";
+import { User, List, Tag, ListComicRelation, TagListRelation, SearchResult, Issue, Volume } from "../Entities/dbObjects";
 
 @Component({
     selector :"sidebar",
@@ -18,5 +18,10 @@ export class SidebarComponent implements OnInit {
     }
 
     ngOnInit(): void {
+    }
+
+    logout(): void {
+        Global.user = null;
+
     }
 }

@@ -14,11 +14,20 @@
                 {{issue.name}}
                 <br />
                 Heft: {{issue.issueNumber}}
+                Hinzufügen zu:
+                <select id="{{issue.id}}">
+                    <option *ngFor="let list of Global.user.lists" value="{{list.id}}">{{list.name}}</option>
+                </select>
+                <button (click)="addToList(issue.id)">Zur Liste hinzufügen</button>
+                <hr />
             </li>
         </ul>
         <h2>Volumes</h2>
         <ul>
-            <li *ngFor="let volume of searchResult.volumes">{{volume.name}}</li>
+            <li *ngFor="let volume of searchResult.volumes">
+                {{volume.name}}
+                <br />
+            </li>
         </ul>
     </div>
 </div>

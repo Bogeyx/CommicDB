@@ -14,6 +14,13 @@ var Global_1 = require("../Global");
 var SearchComponent = (function () {
     function SearchComponent() {
     }
+    Object.defineProperty(SearchComponent.prototype, "Global", {
+        get: function () {
+            return Global_1.Global;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SearchComponent.prototype.ngOnInit = function () {
     };
     SearchComponent.prototype.onInput = function (event) {
@@ -27,6 +34,27 @@ var SearchComponent = (function () {
         }
         else {
             this.searchText = event.target.value;
+        }
+    };
+    SearchComponent.prototype.addToList = function (id) {
+        var listId = $('select#' + id).val();
+        var list = Global_1.Global.user.lists.find(function (l) { return l.id == listId; });
+        if (list.comics.filter(function (c) { return c.comicId == id; }).length !== 0) {
+            alert("Comic bereits hinzugefügt");
+            return;
+        }
+        else {
+            var rel_1 = { listId: listId, comicId: id };
+            Global_1.Global.server.addComicToList(rel_1).subscribe(function (result) {
+                if (result) {
+                    rel_1.list = list;
+                    list.comics.push(rel_1);
+                    alert("Comic zur Liste hinzugefügt");
+                }
+                else {
+                    alert("Comic hinzufügen fehlgeschlagen");
+                }
+            });
         }
     };
     return SearchComponent;

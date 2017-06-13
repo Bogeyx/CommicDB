@@ -15,6 +15,8 @@ import { TestComponent } from "./Pages/test.component";
 import { MyPageComponent } from "./Pages/myPage.component";
 import { SearchComponent } from "./Pages/search.component";
 import { HomeComponent } from "./Pages/home.component";
+import { ProfileComponent } from "./Pages/profile.component";
+import { ListInfoComponent } from "./Pages/listInfo.component";
 import { SidebarComponent } from "./Pages/sidebar.component";
 
 declare var loadingInterval: any;
@@ -29,7 +31,9 @@ declare var loadingInterval: any;
             { path: "", component: HomeComponent },
             { path: "home", component: HomeComponent },
             { path: "my", component: MyPageComponent },
-            { path: "search", component: SearchComponent }
+            { path: "search", component: SearchComponent },
+            { path: "profile", component: ProfileComponent },
+            { path: "listInfo/:listId", component: ListInfoComponent }
         ])
     ],
 
@@ -43,6 +47,8 @@ declare var loadingInterval: any;
         MyPageComponent,
         SearchComponent,
         HomeComponent,
+        ProfileComponent,
+ListInfoComponent,
         SidebarComponent
     ],
     exports: [AppComponent],

@@ -1,0 +1,22 @@
+﻿<div class="profile" *ngIf="list">
+    <h1>Info über Liste {{list.name}}</h1>
+
+    <h2>Inhalt:</h2>
+    <ul class="comicList">
+        <li *ngFor="let issue of issues">
+            <div class="row">
+                <div class="col-xs-3">
+                    <img class="img-responsive" [src]="issue.imageUrl" />
+                </div>
+                <div class="xol-xs-9">
+                    ID: {{issue.id}}<br />
+                    Datum: {{issue.release.toString("dd.MM.yyy")}}<br />
+                    Aus: {{issue.volumeName}}<br />
+                    HeftNummer {{issue.issueNumber}}<br />
+                </div>
+            </div>
+            <button (click)="delete(issue.id)">Eintrag löschen</button>
+            <hr />
+        </li>
+    </ul>
+</div>

@@ -23,12 +23,6 @@ var TestComponent = (function () {
         Global_1.Global.server.getAllTags().subscribe(function (result) {
             _this.tags = result;
         });
-        Global_1.Global.server.getUserByName("TestUser").subscribe(function (result) {
-            console.log(result);
-        });
-        Global_1.Global.server.apiSearch("Batman").subscribe(function (result) {
-            _this.searchResult = result;
-        });
     }
     TestComponent.prototype.ngOnInit = function () {
     };

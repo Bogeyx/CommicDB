@@ -11,8 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Global_1 = require("./Global");
+var dbObjects_1 = require("./Entities/dbObjects");
 var AppComponent = (function () {
     function AppComponent() {
+        var user = new dbObjects_1.User();
+        user.username = "TestUser";
+        user.password = "none";
+        Global_1.Global.server.loginUser(user).subscribe(function (result) {
+            Global_1.Global.user = result;
+        });
     }
     Object.defineProperty(AppComponent.prototype, "Global", {
         get: function () {

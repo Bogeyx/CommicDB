@@ -10,10 +10,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var Global_1 = require("../Global");
+var dbObjects_1 = require("../Entities/dbObjects");
 var MyPageComponent = (function () {
     function MyPageComponent() {
     }
+    Object.defineProperty(MyPageComponent.prototype, "Global", {
+        get: function () {
+            return Global_1.Global;
+        },
+        enumerable: true,
+        configurable: true
+    });
     MyPageComponent.prototype.ngOnInit = function () {
+    };
+    MyPageComponent.prototype.addList = function (input) {
+        var listName = input.value;
+        if (listName && listName.length > 2) {
+            if (Global_1.Global.user.lists.filter(function (l) { return l.name === listName; }).length == 0) {
+                var list = new dbObjects_1.List();
+                list.name = listName;
+                list.userName = Global_1.Global.user.username;
+                Global_1.Global.server.addOrUpdateList(list).subscribe(function (result) {
+                    Global_1.Global.user.lists.push(result);
+                    alert("Zur Liste hinzugefügt");
+                });
+            }
+            else {
+                alert("Name bereits vorhanden");
+            }
+        }
+        else {
+            alert("Name ungültig");
+        }
+    };
+    MyPageComponent.prototype.delete = function (id) {
+        Global_1.Global.server.removeList(id).subscribe(function (result) {
+            var toDelete = Global_1.Global.user.lists.indexOf(Global_1.Global.user.lists.find(function (l) { return l.id === id; }));
+            Global_1.Global.user.lists.splice(toDelete, 1);
+        });
     };
     return MyPageComponent;
 }());

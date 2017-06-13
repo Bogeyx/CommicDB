@@ -1,5 +1,6 @@
 ﻿import { Cookie } from "./Entities/cookie";
 import { DataService } from "./Services/data.service";
+import { User, List, Tag, ListComicRelation, TagListRelation, SearchResult, Issue, Volume } from "./Entities/dbObjects";
 
 export class Global {
     public static isDebug: boolean;
@@ -7,6 +8,8 @@ export class Global {
     public static sessionValid: boolean;
 
     public static server: DataService;
+
+    public static user: User;
 
     // wirft eine sichtbare Fehlermeldung
     public static throwError(error: string): any {

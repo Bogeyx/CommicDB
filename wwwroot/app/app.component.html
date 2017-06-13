@@ -5,10 +5,12 @@
                 <a class="navbar-brand" href="#" id=header>
                     <img src="/Images/Logo.png" width="142px" height="112,75px" alt="Logo">
                 <a class="right">Login</a>
-                </a> 
+                <br>
+                <br>
                 <div *ngIf="Global.user" class="userInfo right">
                     <a routerLink="/profile" routerLinkActive="active">{{Global.user.username}}</a>
-                </div>                
+                </div> 
+                </a>                
             </div>
         </div>
     </nav>

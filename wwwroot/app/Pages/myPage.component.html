@@ -7,9 +7,11 @@
             Elemente: {{list.comics == null ? 0 : list.comics.length}}
             <button (click)="delete(list.id)">Liste löschen</button>
             <hr />
+            
+            <br />
+            <input #inputField />
+            <button (click)="addList(inputField)">Liste hinzufügen</button>
         </li>
+        <br>
     </ul>
-    <br />
-    <input #inputField />
-    <button (click)="addList(inputField)">Liste hinzufügen</button>
 </div>

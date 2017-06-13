@@ -12,21 +12,7 @@ namespace CommicDB.DB.Models
         public int ListId { get; set; }
 
         [NavigationProperty]
-        public Comic Comic { get; set; }
-        [NavigationProperty]
         public List List { get; set; }
-    }
-
-    public class TagComicRelation
-    {
-        public int ComicId { get; set; }
-        [Required]
-        public string TagName { get; set; }
-
-        [NavigationProperty]
-        public Tag Tag { get; set; }
-        [NavigationProperty]
-        public Comic Comic { get; set; }
     }
 
     public class TagListRelation

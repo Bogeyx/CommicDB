@@ -42,7 +42,6 @@ namespace CommicDB.Controllers
         public List<Tag> GetAllTags()
         {
             return this._comicDB.Tags
-                .Include(t => t.Comics).ThenInclude(c => c.Comic)
                 .Include(t => t.Lists).ThenInclude(l => l.List)
                 .ToList();
         }
@@ -54,12 +53,13 @@ namespace CommicDB.Controllers
                 .ToList();
         }
 
-        [HttpGet]
-        public User GetUserByName(string userName)
+        [HttpPost]
+        public User LoginUser([FromBody] User partial)
         {
             return this._comicDB.Users
                 .Include(u => u.Lists).ThenInclude(l => l.SubLists)
-                .FirstOrDefault(u => u.Username == userName);
+                .Include(u => u.Lists).ThenInclude(l => l.Comics)
+                .FirstOrDefault(u => u.Username == partial.Username && u.Password == partial.Password);
         }
 
         [HttpGet]
@@ -70,18 +70,10 @@ namespace CommicDB.Controllers
                 .Include(l => l.Tags).ThenInclude(t => t.Tag)
                 .Include(l=> l.SubLists)
                 .Include(l => l.Parent)
-                .Include(l => l.Comics).ThenInclude(c => c.Comic).ThenInclude(l => l.Tags).ThenInclude(t => t.Tag)
+                .Include(l => l.Comics)
                 .FirstOrDefault(l => l.Id == id);
         }
 
-        [HttpGet]
-        public Comic GetComicById(int id)
-        {
-            return this._comicDB.Comics
-                .Include(c => c.Lists).ThenInclude(c => c.List)
-                .Include(c=> c.Tags)
-                .FirstOrDefault(c => c.Id == id);
-        }
 
         #endregion
 
@@ -94,7 +86,7 @@ namespace CommicDB.Controllers
             try
             {
                 this.TryUpdate<User>(newUser);                
-                return this.GetUserByName(newUser.Username);
+                return this.LoginUser(newUser);
             }
             catch (Exception ex)
             {
@@ -117,20 +109,6 @@ namespace CommicDB.Controllers
         }
 
         [HttpPost]
-        public Comic AddOrUpdateComic([FromBody]Comic newComic)
-        {
-            try
-            {
-                this.TryUpdate<Comic>(newComic);                
-                return this.GetComicById(newComic.Id);
-            }
-            catch (Exception ex)
-            {
-                return ClientException<Comic>.Show(ex, this.Response, newComic);
-            }
-        }
-
-        [HttpPost]
         public bool AddTagToList([FromBody]TagListRelation rel)
         {
             try
@@ -145,11 +123,12 @@ namespace CommicDB.Controllers
         }
 
         [HttpPost]
-        public bool AddTagToComic([FromBody]TagComicRelation rel)
+        public bool AddComicToList([FromBody]ListComicRelation rel)
         {
             try
             {
-                this.TryUpdate<TagComicRelation>(rel);
+                this._comicDB.ListComics.Add(rel);
+                this._comicDB.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -162,21 +141,6 @@ namespace CommicDB.Controllers
 
 
         #region Remove
-
-        [HttpGet]
-        public bool RemoveComic(int id)
-        {
-            try
-            {
-                this._comicDB.Comics.Remove(this._comicDB.Comics.First(c => c.Id == id));
-                this._comicDB.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return ClientException<bool>.Show(ex, this.Response, id);
-            }
-        }
 
         [HttpGet]
         public bool RemoveList(int id)
@@ -213,7 +177,9 @@ namespace CommicDB.Controllers
         {
             try
             {
-                return this._comicDB.ListTags.Remove(rel) != null;
+                this._comicDB.ListTags.Remove(rel);
+                this._comicDB.SaveChanges();
+                return true;
             }
             catch (Exception ex)
             {
@@ -221,18 +187,22 @@ namespace CommicDB.Controllers
             }
         }
 
+
         [HttpPost]
-        public bool RemoveTagFromComic([FromBody]TagComicRelation rel)
+        public bool RemoveComicFromList([FromBody]ListComicRelation rel)
         {
             try
             {
-                return this._comicDB.ComicTags.Remove(rel) != null;
+                this._comicDB.ListComics.Remove(rel);
+                this._comicDB.SaveChanges();
+                return true;
             }
             catch (Exception ex)
             {
                 return ClientException<bool>.Show(ex, this.Response, rel);
             }
         }
+
 
         #endregion
 
@@ -275,6 +245,7 @@ namespace CommicDB.Controllers
 
             this._comicDB.SaveChanges();
         }
+
 
         /// <summary>
         /// Liefert die 10 besten Suchergebnisse zurück

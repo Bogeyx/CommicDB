@@ -19,6 +19,6 @@ namespace CommicDB.DB.Models
         public DateTime RegistrationDate { get; set; }
 
         [NavigationProperty]
-        public List<List> Lists { get; set; }
+        public List<List> Lists { get; set; } = new List<List>();
     }
 }

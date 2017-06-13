@@ -24,6 +24,8 @@ var test_component_1 = require("./Pages/test.component");
 var myPage_component_1 = require("./Pages/myPage.component");
 var search_component_1 = require("./Pages/search.component");
 var home_component_1 = require("./Pages/home.component");
+var profile_component_1 = require("./Pages/profile.component");
+var listInfo_component_1 = require("./Pages/listInfo.component");
 var sidebar_component_1 = require("./Pages/sidebar.component");
 var AppModule = (function () {
     function AppModule(http, server) {
@@ -51,7 +53,9 @@ AppModule = __decorate([
                 { path: "", component: home_component_1.HomeComponent },
                 { path: "home", component: home_component_1.HomeComponent },
                 { path: "my", component: myPage_component_1.MyPageComponent },
-                { path: "search", component: search_component_1.SearchComponent }
+                { path: "search", component: search_component_1.SearchComponent },
+                { path: "profile", component: profile_component_1.ProfileComponent },
+                { path: "listInfo/:listId", component: listInfo_component_1.ListInfoComponent }
             ])
         ],
         providers: [
@@ -63,6 +67,8 @@ AppModule = __decorate([
             myPage_component_1.MyPageComponent,
             search_component_1.SearchComponent,
             home_component_1.HomeComponent,
+            profile_component_1.ProfileComponent,
+            listInfo_component_1.ListInfoComponent,
             sidebar_component_1.SidebarComponent
         ],
         exports: [app_component_1.AppComponent],

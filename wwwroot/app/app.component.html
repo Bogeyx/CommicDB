@@ -5,20 +5,30 @@
                 <a class="navbar-brand" href="#">
                     <img alt="Brand" src="...">
                 </a>
-                <a class="right">User Name</a>
+                <div *ngIf="Global.user" class="userInfo right">
+                    <a routerLink="/profile" routerLinkActive="active">{{Global.user.username}}</a>
+                </div>                
             </div>
         </div>
     </nav>
 </div>
 
 
-<div class="container">
+<div *ngIf="Global.user" class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-4">
             <sidebar></sidebar>
         </div>
         <div class="col-xs-12 col-sm-8">
-            <router-outlet></router-outlet>
+            <div class="routerWrapper">
+                <router-outlet></router-outlet>
+            </div>
         </div>
+    </div>
+</div>
+
+<div *ngIf="!Global.user" class="container">
+    <div class="row">
+        <h1>Ausgeloggt</h1>
     </div>
 </div>

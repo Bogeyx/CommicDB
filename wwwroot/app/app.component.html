@@ -1,8 +1,24 @@
-﻿<div class="container noMargin">
-    <div class="backgroundContainer">
-        <div class="container body-content">
+﻿<div class="header">
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="row">
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="...">
+                </a>
+                <a class="right">User Name</a>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4">
+            <sidebar></sidebar>
+        </div>
+        <div class="col-xs-12 col-sm-8">
             <router-outlet></router-outlet>
         </div>
     </div>
 </div>
-<div class="clearfix"></div>

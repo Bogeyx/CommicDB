@@ -37,6 +37,7 @@
     <Content Include="wwwroot\app\Services\serviceBase.js" />
     <Content Include="wwwroot\app\Services\ServiceBase.js.map" />
     <Content Include="wwwroot\app\Services\serviceBase.ts" />
+    <Content Include="wwwroot\css\content.scss" />
     <Content Include="wwwroot\css\variables.scss" />
     <Content Include="wwwroot\systemjs.config.js" />
     <Content Include="wwwroot\systemjs.config.min.js" />

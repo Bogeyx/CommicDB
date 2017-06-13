@@ -12,6 +12,10 @@ import { AppComponent } from "./app.component";
 import { Global } from "./Global";
 import { DataService } from "./Services/data.service";
 import { TestComponent } from "./Pages/test.component";
+import { MyPageComponent } from "./Pages/myPage.component";
+import { SearchComponent } from "./Pages/search.component";
+import { HomeComponent } from "./Pages/home.component";
+import { SidebarComponent } from "./Pages/sidebar.component";
 
 declare var loadingInterval: any;
 
@@ -22,7 +26,10 @@ declare var loadingInterval: any;
         JsonpModule,
         FormsModule,
         RouterModule.forRoot([
-            { path: "", component: TestComponent }
+            { path: "", component: HomeComponent },
+            { path: "home", component: HomeComponent },
+            { path: "my", component: MyPageComponent },
+            { path: "search", component: SearchComponent }
         ])
     ],
 
@@ -32,7 +39,11 @@ declare var loadingInterval: any;
 
     declarations: [
         AppComponent,
-        TestComponent
+        TestComponent,
+        MyPageComponent,
+        SearchComponent,
+        HomeComponent,
+        SidebarComponent
     ],
     exports: [AppComponent],
     bootstrap: [AppComponent]

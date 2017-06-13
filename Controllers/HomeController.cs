@@ -10,7 +10,7 @@ namespace CommicDB.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View("Views/Home/Index.cshtml");
         }
 
         public IActionResult About()
@@ -30,6 +30,23 @@ namespace CommicDB.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+
+        //Angular
+        public IActionResult home()
+        {
+            return this.Index();
+        }
+
+        public IActionResult my()
+        {
+            return this.Index();
+        }
+
+        public IActionResult search()
+        {
+            return this.Index();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@import "variables.scss";
+@import "content.scss";
 
 .initial-loadingWrapper {
     display: flex;
@@ -36,3 +37,8 @@
         margin-top: 40px;
     }
 }
+
+.right {
+    float:right;
+}
+

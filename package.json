@@ -8,7 +8,10 @@
     "postinstall": "typings install",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "typings": "typings"
+    "typings": "typings",
+    "watch1" :"node-sass -w wwwroot/css/site.scss -o wwwroot/css/",
+    "watch2":"tsc -w -p .",
+    "both": "concurrently --kill-others \"tsc -w -p .\" \"node-sass -w wwwroot/css/site.scss -o wwwroot/css/\""
   },
   "dependencies": {
 

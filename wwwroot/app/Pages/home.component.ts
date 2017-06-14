@@ -11,6 +11,10 @@ import { User, List, Tag, ListComicRelation, TagListRelation, SearchResult, Issu
 })
 
 export class HomeComponent implements OnInit {
+    get Global() {
+        return Global;
+    }
+    
 
     constructor() {
 

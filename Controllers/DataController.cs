@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -261,8 +262,7 @@ namespace CommicDB.Controllers
                 client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
 
                 var query = "https://comicvine.gamespot.com/api/search/?api_key=" + Startup.APIKEY + "&query=" + text;
-                var result = await client.GetAsync(query);
-                var xml = await result.Content.ReadAsStringAsync();
+                var xml = await this.GetApiResult(query, client);
                 XDocument doc = XDocument.Parse(xml);
                 searchResult.Issues = doc.Root.Element("results").Elements("issue").Select(e => new Issue(e)).ToList();
                 searchResult.Volumes = doc.Root.Element("results").Elements("volume").Select(e => new Volume(e)).ToList();
@@ -283,8 +283,7 @@ namespace CommicDB.Controllers
                 client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
 
                 var query = "https://comicvine.gamespot.com/api/issue/4000-" + id + "?api_key=" + Startup.APIKEY;
-                var result = await client.GetAsync(query);
-                var xml = await result.Content.ReadAsStringAsync();
+                var xml = await this.GetApiResult(query, client);
                 XDocument doc = XDocument.Parse(xml);
                 return new Issue(doc.Root.Element("results"));
             }
@@ -302,11 +301,30 @@ namespace CommicDB.Controllers
                 client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
 
                 var query = "https://comicvine.gamespot.com/api/volume/4050-" + id + "?api_key=" + Startup.APIKEY;
-                var result = await client.GetAsync(query);
-                var xml = await result.Content.ReadAsStringAsync();
+                var xml = await this.GetApiResult(query, client);
                 XDocument doc = XDocument.Parse(xml);
                 return new Volume(doc.Root.Element("results"));
             }
+        }
+
+
+        private async Task<string> GetApiResult(string query, HttpClient client)
+        {
+            var found = false;
+            string xml;
+            var hash = query.Replace("https://", "/").Replace("/", "%").Replace("?", "#");
+            var file = Directory.GetFiles("Cache").FirstOrDefault(f => f.Contains(hash));
+
+            if (file != null) {
+                xml = System.IO.File.ReadAllText(file);
+            } else {
+                var result = await client.GetAsync(query);
+                xml = await result.Content.ReadAsStringAsync();
+
+                System.IO.File.WriteAllText("Cache\\" + hash + ".xml", xml);
+            }
+
+            return xml;
         }
     }
 }

@@ -12,6 +12,9 @@ import { User, List, Tag, ListComicRelation, TagListRelation, SearchResult, Issu
 })
 
 export class SidebarComponent implements OnInit {
+    get Global() {
+        return Global;
+    }
 
     constructor() {
 

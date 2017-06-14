@@ -1,7 +1,5 @@
 ﻿<div class="profile" *ngIf="list">
     <h1>Info über Liste {{list.name}}</h1>
-
-    <h2>Inhalt:</h2>
     <ul class="comicList">
         <li *ngFor="let issue of issues">
             <div class="row">
@@ -10,12 +8,15 @@
                 </div>
                 <div class="xol-xs-9">
                     ID: {{issue.id}}<br />
-                    Datum: {{issue.release.toString("dd.MM.yyy")}}<br />
+                    Datum: {{issue.formatedRelease}}<br />
                     Aus: {{issue.volumeName}}<br />
-                    HeftNummer {{issue.issueNumber}}<br />
+                    Heftnummer: {{issue.issueNumber}}<br />
+                    <a href="{{issue.detailsURL}}">Details anschauen</a><br />
+                    <br />
+
+                    <button (click)="delete(issue.id)">Eintrag löschen</button>
                 </div>
-            </div>
-            <button (click)="delete(issue.id)">Eintrag löschen</button>
+            </div>            
             <hr />
         </li>
     </ul>

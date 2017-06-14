@@ -16,6 +16,8 @@ namespace CommicDB.Utility.API
 
         public DateTime Release { get; set; }
 
+        public string FormatedRelease { get; set; }
+
         public int IssueNumber { get; set; }
 
         public string Description { get; set; }
@@ -35,6 +37,7 @@ namespace CommicDB.Utility.API
             this.DetailsURL = raw.Element("site_detail_url").Value + Startup.FULLAPIKEY;
             var release = String.IsNullOrEmpty(raw.Element("store_date").Value) ? raw.Element("cover_date").Value : raw.Element("store_date").Value;
             this.Release = DateTime.Parse(release);
+            this.FormatedRelease = this.Release.ToString("dd.MM.yyyy");
             this.IssueNumber = int.Parse(raw.Element("issue_number").Value);
             this.Description = raw.Element("description").Value;
             this.ImageUrl = raw.Element("image").Element("medium_url").Value;

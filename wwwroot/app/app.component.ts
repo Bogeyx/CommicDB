@@ -28,5 +28,9 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        $('#body-special').css("min-height", window.innerHeight - $('.header').height());
+        window.onresize = function () {
+            $('#body-special').css("min-height", window.innerHeight - $('.header').height());
+        };
     }
 }

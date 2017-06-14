@@ -1,6 +1,6 @@
 ﻿<div class="search">
     <h1>Suche</h1>
-    <input *ngIf="!loading" type="text" class="searchBox" (keyup)="onInput($event)"/>
+    <input *ngIf="!loading" type="text" class="searchBox" (keyup)="onInput($event)" placeholder="Suche nach..."/>
     <div *ngIf="loading" class="progress progress-striped active initial-loading initial">
         <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
         </div>
@@ -13,23 +13,33 @@
         <h2>Ergebnisse</h2>
         <ul>
             <li *ngFor="let issue of searchResult.issues">
-                {{issue.name}}
-                <br />
-                Heft: {{issue.issueNumber}}
-                Hinzufügen zu:
-                <select id="{{issue.id}}">
-                    <option *ngFor="let list of Global.user.lists" value="{{list.id}}">{{list.name}}</option>
-                </select>
-                <button (click)="addToList(issue.id)">Zur Liste hinzufügen</button>
+                <div class="col-xs-2">
+                    <img style="height:150px;" [src]="issue.imageUrl" />
+                </div>
+                <div class="col-xs-6">
+                    <b>{{issue.name}}</b>
+                    <br />
+                    Heft: {{issue.issueNumber}} vom {{issue.formatedRelease}}
+                    <br />
+                    <a href="{{issue.detailsURL}}">Details anschauen</a>
+                </div>
+                <div class="col-xs-4">
+                    <button (click)="addToList(issue.id)" style="margin-bottom:2px">Zur Liste hinzufügen</button>
+                    <br />
+                    <select id="{{issue.id}}" >
+                        <option *ngFor="let list of Global.user.lists" value="{{list.id}}">{{list.name}}</option>
+                    </select>                    
+                </div>
+                <div style="clear:both;"></div>
                 <hr />
             </li>
         </ul>
-        <h2>Volumes</h2>
+        <!--<h2>Volumes</h2>
         <ul>
             <li *ngFor="let volume of searchResult.volumes">
                 {{volume.name}}
                 <br />
             </li>
-        </ul>
+        </ul>-->
     </div>
 </div>

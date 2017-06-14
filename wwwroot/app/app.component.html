@@ -2,37 +2,31 @@
     <nav class="navbar navbar-default">
         <div class="container">
             <div class="row">
-                <a class="navbar-brand" href="#" id=header>
-                    <img src="/Images/Logo.png" width="142px" height="112,75px" alt="Logo">
-                <a class="right">Login</a>
-                <br>
-                <br>
-                <div *ngIf="Global.user" class="userInfo right">
-                    <a routerLink="/profile" routerLinkActive="active">{{Global.user.username}}</a>
-                </div> 
-                </a>                
+                <a class="navbar-brand" href="#" id="header">
+                    <img src="/Images/Logo.png" class="logo">
+                    <div class="userInfo right">
+                        <a *ngIf="!Global.user" href="">Login</a>
+                        <a *ngIf="Global.user" routerLink="/profile" routerLinkActive="active">{{Global.user.username}}</a>
+                    </div>  
+                </a>
             </div>
         </div>
     </nav>
 </div>
 
 
-<div *ngIf="Global.user" class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-4">
-            <sidebar></sidebar>
-        </div>
+<div class="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-3">
+                <sidebar></sidebar>
+            </div>
 
-        <div class="col-xs-12 col-sm-8" id=body-special>
-            <div class="routerWrapper">
-                <router-outlet></router-outlet>
+            <div class="col-xs-12 col-sm-9" id="body-special">
+                <div class="routerWrapper">
+                    <router-outlet></router-outlet>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div *ngIf="!Global.user" class="container">
-    <div class="row">
-        <h1>Ausgeloggt</h1>
     </div>
 </div>

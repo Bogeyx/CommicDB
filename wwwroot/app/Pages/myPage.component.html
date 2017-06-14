@@ -1,17 +1,17 @@
 ﻿<div class="myPage">
     <h1>Meine Listen</h1>
-    <ul class="lists">
+    <ul *ngIf="Global.user" class="lists">
         <li *ngFor="let list of Global.user.lists" class="listItem">
-            <h3><a routerLink="/listInfo/{{list.id}}" routerLinkActive="active">{{list.name}}</a></h3>
-            <br />
-            Elemente: {{list.comics == null ? 0 : list.comics.length}}
-            <button (click)="delete(list.id)">Liste löschen</button>
-            <hr />
-            
-            <br />
-            <input #inputField />
-            <button (click)="addList(inputField)">Liste hinzufügen</button>
+            <div>
+                <b><a routerLink="/listInfo/{{list.id}}" routerLinkActive="active">{{list.name}} </a></b>
+                <span> Elemente: {{list.comics == null ? 0 : list.comics.length}}</span>
+                <button (click)="delete(list.id)" class="right">Liste löschen</button>
+            </div>
+            <hr />           
         </li>
-        <br>
     </ul>
+
+    <br />
+    <input #inputField placeholder="Name"/>
+    <button (click)="addList(inputField)">Liste hinzufügen</button>
 </div>

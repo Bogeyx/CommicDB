@@ -1,3 +1,7 @@
-﻿<div class="home">
+﻿<div *ngIf="Global.user" class="home">
     <h1>Home</h1>
+</div>
+
+<div *ngIf="!Global.user" class="home">
+    <h1>Ausgeloggt</h1>
 </div>

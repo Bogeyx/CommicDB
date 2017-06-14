@@ -66,6 +66,7 @@ export class Issue {
     public aPIURL: string;
     public detailsURL: string;
     public release: Date;
+    public formatedRelease: string;
     public issueNumber: number;
     public description: string;
     public imageUrl: string;

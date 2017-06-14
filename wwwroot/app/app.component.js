@@ -29,6 +29,10 @@ var AppComponent = (function () {
         configurable: true
     });
     AppComponent.prototype.ngOnInit = function () {
+        $('#body-special').css("min-height", window.innerHeight - $('.header').height());
+        window.onresize = function () {
+            $('#body-special').css("min-height", window.innerHeight - $('.header').height());
+        };
     };
     return AppComponent;
 }());

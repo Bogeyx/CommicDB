@@ -1,3 +1,24 @@
 ﻿<div class="profile">
-    <h1>Profil / Optionen</h1>
+    <h1>Mein Profil</h1>
+
+    <div *ngIf="Global.user" class="profileItems">
+        <p>
+            Username: {{Global.user.username}}<br /> 
+            Email: {{Global.user.email}}<br />
+            Registriert: {{Global.user.formatedRegistrationDate}}
+        </p>
+
+        <br />
+        <h3>Benachrichtigungen</h3>
+        <ul>
+            <li>
+                <input type="checkbox" id="newsletter"/>
+                <label for="newsletter">Regelmäßiger Newsletter</label>
+            </li>
+            <li>
+                <input type="checkbox" id="new" />
+                <label for="new">Benachrichtigung, wenn neue Ausgabe im Volume</label>
+            </li>
+        </ul>
+    </div>
 </div>

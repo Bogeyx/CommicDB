@@ -10,9 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var Global_1 = require("../Global");
 var ProfileComponent = (function () {
     function ProfileComponent() {
     }
+    Object.defineProperty(ProfileComponent.prototype, "Global", {
+        get: function () {
+            return Global_1.Global;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ProfileComponent.prototype.ngOnInit = function () {
     };
     return ProfileComponent;

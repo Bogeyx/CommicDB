@@ -8,6 +8,8 @@
     public options: string;
     /*[Required]*/
     public registrationDate: Date;
+
+    public formatedRegistrationDate: Date;
     /*[NavigationProperty]*/
     public lists: List[];
 }

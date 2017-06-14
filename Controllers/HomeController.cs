@@ -48,5 +48,15 @@ namespace CommicDB.Controllers
         {
             return this.Index();
         }
+
+        public IActionResult profile()
+        {
+            return this.Index();
+        }
+
+        public IActionResult listInfo()
+        {
+            return this.Index();
+        }
     }
 }

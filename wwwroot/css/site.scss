@@ -79,6 +79,10 @@ input, button, select {
     vertical-align: top;
 }
 
+input[type=checkbox] {
+    height: auto;
+}
+
 h1 {
     font-size: 40pt;
 }

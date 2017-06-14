@@ -2,8 +2,8 @@
   {
     "outputFileName": "dist/build.min.css",
     "inputFiles": [
-      "wwwroot/css/site.css",
-      "node_modules/bootstrap/dist/css/bootstrap.css"
+      "node_modules/bootstrap/dist/css/bootstrap.css",
+      "wwwroot/css/site.css"
     ]
   },
   {

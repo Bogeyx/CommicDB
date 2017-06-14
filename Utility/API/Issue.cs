@@ -36,7 +36,12 @@ namespace CommicDB.Utility.API
             this.APIURL = raw.Element("api_detail_url").Value + Startup.FULLAPIKEY;
             this.DetailsURL = raw.Element("site_detail_url").Value + Startup.FULLAPIKEY;
             var release = String.IsNullOrEmpty(raw.Element("store_date").Value) ? raw.Element("cover_date").Value : raw.Element("store_date").Value;
-            this.Release = DateTime.Parse(release);
+            if(!String.IsNullOrEmpty(release)) {
+                this.Release = DateTime.Parse(release);
+            } else {
+                this.Release = DateTime.MinValue;
+            }
+            
             this.FormatedRelease = this.Release.ToString("dd.MM.yyyy");
             this.IssueNumber = int.Parse(raw.Element("issue_number").Value);
             this.Description = raw.Element("description").Value;

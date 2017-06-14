@@ -35,7 +35,15 @@ namespace CommicDB.Utility.API
             this.ImageUrl = raw.Element("image").Element("medium_url").Value;
             this.Name = raw.Element("name").Value;
             var startYear = String.IsNullOrEmpty(raw.Element("start_year").Value) ? "0" : raw.Element("start_year").Value;
-            this.StartYear = int.Parse(startYear);
+            if(!String.IsNullOrEmpty(startYear)) 
+            {
+                this.StartYear = int.Parse(startYear);
+            } 
+            else 
+            {
+                this.StartYear = 0;
+            }
+            
             this.Puplisher = raw.Element("publisher").Element("name").Value;
             if (raw.Element("issues") != null)
             {

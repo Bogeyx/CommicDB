@@ -1,5 +1,19 @@
 ﻿<div class="myPage">
     <h1>Meine Listen</h1>
+    </div>
+        <input #inputField placeholder="TagName"/>
+        <select id="{{issue.id}}" >
+            <option *ngFor="let list of Global.user.lists" value="{{list.id}}">{{list.name}}</option>
+        </select>
+        <button (click)="addTag(inputField)">Tag hinzufügen</button>
+    </div>
+    <div>
+        <label>Listen filtern:
+			<select>
+				<option>kein Filter</option>
+			</select>
+		</label>  
+    </div>
     <ul *ngIf="Global.user" class="lists">
         <li *ngFor="let list of Global.user.lists" class="listItem">
             <div>

@@ -17,10 +17,28 @@ export class MyPageComponent implements OnInit {
 
 
     constructor() {
-
+        let allTags = Global.server.getAllTags();
     }
 
     ngOnInit(): void {
+    }
+
+    addTag(input: HTMLInputElement){
+        let listName = input.value;
+        let tagName = input.value;
+
+        if (tagName && tagName.length > 2) {
+            let tag = new Tag();
+            tag.name = tagName;
+            let list = new List();
+            list.name = listName;
+            
+            Global.server.addTagToList(TagListRelation).subscribe(result => {
+                Global.user.lists.push(result);
+            })
+        } else {
+            alert("Name ungültig");
+        }
     }
 
     addList(input: HTMLInputElement) {

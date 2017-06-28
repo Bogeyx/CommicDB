@@ -14,6 +14,7 @@ var Global_1 = require("../Global");
 var dbObjects_1 = require("../Entities/dbObjects");
 var MyPageComponent = (function () {
     function MyPageComponent() {
+        var allTags = Global_1.Global.server.getAllTags();
     }
     Object.defineProperty(MyPageComponent.prototype, "Global", {
         get: function () {
@@ -23,6 +24,22 @@ var MyPageComponent = (function () {
         configurable: true
     });
     MyPageComponent.prototype.ngOnInit = function () {
+    };
+    MyPageComponent.prototype.addTag = function (input) {
+        var listName = input.value;
+        var tagName = input.value;
+        if (tagName && tagName.length > 2) {
+            var tag = new dbObjects_1.Tag();
+            tag.name = tagName;
+            var list = new dbObjects_1.List();
+            list.name = listName;
+            Global_1.Global.server.addTagToList(dbObjects_1.TagListRelation).subscribe(function (result) {
+                Global_1.Global.user.lists.push(result);
+            });
+        }
+        else {
+            alert("Name ungültig");
+        }
     };
     MyPageComponent.prototype.addList = function (input) {
         var listName = input.value;

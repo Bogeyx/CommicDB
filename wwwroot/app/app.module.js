@@ -21,14 +21,11 @@ var app_component_1 = require("./app.component");
 var Global_1 = require("./Global");
 var data_service_1 = require("./Services/data.service");
 var test_component_1 = require("./Pages/test.component");
-<<<<<<< HEAD
-=======
 var myPage_component_1 = require("./Pages/myPage.component");
 var search_component_1 = require("./Pages/search.component");
 var home_component_1 = require("./Pages/home.component");
 var profile_component_1 = require("./Pages/profile.component");
 var listInfo_component_1 = require("./Pages/listInfo.component");
->>>>>>> 76bd1727d97524cce5c775cbac90a2dc4f74d6e7
 var sidebar_component_1 = require("./Pages/sidebar.component");
 var AppModule = (function () {
     function AppModule(http, server) {
@@ -67,14 +64,11 @@ AppModule = __decorate([
         declarations: [
             app_component_1.AppComponent,
             test_component_1.TestComponent,
-<<<<<<< HEAD
-=======
             myPage_component_1.MyPageComponent,
             search_component_1.SearchComponent,
             home_component_1.HomeComponent,
             profile_component_1.ProfileComponent,
             listInfo_component_1.ListInfoComponent,
->>>>>>> 76bd1727d97524cce5c775cbac90a2dc4f74d6e7
             sidebar_component_1.SidebarComponent
         ],
         exports: [app_component_1.AppComponent],

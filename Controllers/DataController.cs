@@ -310,7 +310,6 @@ namespace CommicDB.Controllers
 
         private async Task<string> GetApiResult(string query, HttpClient client)
         {
-            var found = false;
             string xml;
             var hash = query.Replace("https://", "/").Replace("/", "%").Replace("?", "#");
             var file = Directory.GetFiles("Cache").FirstOrDefault(f => f.Contains(hash));

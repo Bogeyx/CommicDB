@@ -1,1 +1,14 @@
+<<<<<<< HEAD
 <h1>Sidebar</h1>
+=======
+﻿<div *ngIf="Global.user" class="sidebar">
+    <br>
+    <div class="links">
+        <a routerLink="/home" routerLinkActive="active">Home</a>
+        <a routerLink="/my" routerLinkActive="active">Meine Listen</a>
+        <a routerLink="/search" routerLinkActive="active">Suche</a>
+        <a routerLink="/home" routerLinkActive="active" (mousedown)="logout()">Logout</a>
+    </div>
+    <br>
+</div>
+>>>>>>> 76bd1727d97524cce5c775cbac90a2dc4f74d6e7

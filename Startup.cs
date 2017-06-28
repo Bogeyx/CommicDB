@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using CommicDB.Controllers;
 using CommicDB.DB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,9 +19,12 @@ namespace CommicDB
 {
     public class Startup
     {
+        public static string APIKEY = "f65041c032be86da24e07882e341c3c2363bed7a";
+        public static string FULLAPIKEY = "?api_key=" + APIKEY;
+
         public Startup(IHostingEnvironment env)
         {
-            env.EnvironmentName = "Development";
+            env.EnvironmentName = "Production";
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -56,7 +60,6 @@ namespace CommicDB
             loggerFactory.AddDebug();
             app.UseResponseCompression();
             comicDB.Database.Migrate();
-
 
             if (env.IsDevelopment())
             {
@@ -116,6 +119,11 @@ namespace CommicDB
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    name: "angular",
+                    template: "{action=Index}",
+                    defaults: new { controller = "Home"});
+            
             });
         }
     }

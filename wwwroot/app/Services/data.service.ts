@@ -4,7 +4,7 @@ import { Observable } from "rxjs/Rx";
 
 import { ServiceBase } from "./ServiceBase";
 import { Global } from "../Global";
-import { User, List, Comic, Tag, ListComicRelation, TagComicRelation, TagListRelation } from "../Entities/dbObjects";
+import { User, List, Tag, ListComicRelation, TagListRelation, SearchResult, Issue, Volume } from "../Entities/dbObjects";
 
 @Injectable()
 export class DataService extends ServiceBase {
@@ -33,8 +33,8 @@ export class DataService extends ServiceBase {
             .catch(this.handleServerError);
     }
 
-    getUserByName(username: string): Observable<User> {
-        return this.http.get("/data/GetUserByName?username=" + username, )
+    loginUser(user : User): Observable<User> {
+        return this.http.post("/data/LoginUser", user)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
@@ -45,22 +45,10 @@ export class DataService extends ServiceBase {
             .catch(this.handleServerError);
     }
 
-    getComicById(id: number): Observable<Comic> {
-        return this.http.get("/data/GetComicById?id=" + id, )
-            .map(this.deserialize)
-            .catch(this.handleServerError);
-    }
-
 
     // addOrUpdate
     addOrUpdateList(list: List): Observable<List> {
         return this.http.post("/data/AddOrUpdateList", list)
-            .map(this.deserialize)
-            .catch(this.handleServerError);
-    }
-
-    addOrUpdateComic(comic: Comic): Observable<Comic> {
-        return this.http.post("/data/AddOrUpdateComic", comic)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
@@ -77,8 +65,8 @@ export class DataService extends ServiceBase {
             .catch(this.handleServerError);
     }
 
-    addTagToComic(rel: TagComicRelation): Observable<boolean> {
-        return this.http.post("/data/AddTagToComic", rel)
+    addComicToList(rel: ListComicRelation): Observable<boolean> {
+        return this.http.post("/data/AddComicToList", rel)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
@@ -87,12 +75,6 @@ export class DataService extends ServiceBase {
     // remove
     removeList(id: number): Observable<boolean> {
         return this.http.get("/data/RemoveList?id=" + id)
-            .map(this.deserialize)
-            .catch(this.handleServerError);
-    }
-
-    removeComic(id: number): Observable<boolean> {
-        return this.http.get("/data/RemoveComic?id=" + id)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }
@@ -109,8 +91,27 @@ export class DataService extends ServiceBase {
             .catch(this.handleServerError);
     }
 
-    removeTagFromComic(rel: TagComicRelation): Observable<boolean> {
-        return this.http.post("/data/RemoveTagFromComic", rel)
+    removeComicFromList(rel: ListComicRelation): Observable<boolean> {
+        let copy = Global.clone(rel);
+        return this.http.post("/data/RemoveComicFromList", copy)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+
+
+    // API
+    apiSearch(text:string): Observable<SearchResult> {
+        return this.http.get("/data/Search?text=" + text)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+    apiGetIssue(id: number): Observable<Issue> {
+        return this.http.get("/data/GetIssue?id=" + id)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+    apiGetVolume(id: number): Observable<Volume> {
+        return this.http.get("/data/GetVolume?id=" + id)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }

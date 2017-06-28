@@ -1,70 +1,89 @@
-﻿export class Comic {
+﻿export class User {
     /*[Key]*/
-    public Id: number;
+    public username: string;
     /*[Required]*/
-    public Name: string;
+    public password: string;
     /*[Required]*/
-    public Discription: string;
+    public email: string;
+    public options: string;
     /*[Required]*/
-    public Author: string;
-    /*[Required]*/
-    public Release: Date;
-    public Lists: ListComicRelation[];
-    public Tags: TagComicRelation[];
-}
+    public registrationDate: Date;
 
-export class User {
-    /*[Key]*/
-    public Username: string;
-    /*[Required]*/
-    public Password: string;
-    /*[Required]*/
-    public Email: string;
-    public Options: string;
-    /*[Required]*/
-    public RegistrationDate: Date;
-    public Lists: List[];
+    public formatedRegistrationDate: Date;
+    /*[NavigationProperty]*/
+    public lists: List[];
 }
 
 export class Tag {
     /*[Key]*/
-    public Name: string;
-    public Comics: TagComicRelation[];
-    public Lists: TagListRelation[];
+    public name: string;
+    /*[NavigationProperty]*/
+    public lists: TagListRelation[];
 }
 
 export class List {
     /*[Key]*/
-    public Id: number;
+    public id: number;
     /*[Required]*/
-    public UserName: string;
-    public ParentId: number;
+    public userName: string;
+    public parentId: number;
     /*[Required]*/
-    public Name: string;
-    public User: User;
-    public Parent: List;
-    public SubLists: List[];
-    public Comics: ListComicRelation[];
-    public Tags: TagListRelation[];
+    public name: string;
+    /*[NavigationProperty]*/
+    public user: User;
+    /*[NavigationProperty]*/
+    public parent: List;
+    /*[NavigationProperty]*/
+    public subLists: List[];
+    /*[NavigationProperty]*/
+    public comics: ListComicRelation[];
+    /*[NavigationProperty]*/
+    public tags: TagListRelation[];
 }
 
 export class ListComicRelation {
-    public ComicId: number;
-    public ListId: number;
-    public Comic: Comic;
-    public List: List;
-}
-export class TagComicRelation {
-    public ComicId: number;
-    /*[Required]*/
-    public TagName: string;
-    public Tag: Tag;
-    public Comic: Comic;
+    public comicId: number;
+    public listId: number;
+    /*[NavigationProperty]*/
+    public list: List;
 }
 export class TagListRelation {
-    public ListId: number;
+    public listId: number;
     /*[Required]*/
-    public TagName: string;
-    public Tag: Tag;
-    public List: List;
+    public tagName: string;
+    /*[NavigationProperty]*/
+    public tag: Tag;
+    /*[NavigationProperty]*/
+    public list: List;
+}
+
+
+/* API */
+export class SearchResult {
+    public issues: Issue[];
+    public volumes: Volume[];
+}
+export class Issue {
+    public id: number;
+    public aPIURL: string;
+    public detailsURL: string;
+    public release: Date;
+    public formatedRelease: string;
+    public issueNumber: number;
+    public description: string;
+    public imageUrl: string;
+    public name: string;
+    public volumeName: string;
+    public volumeId: number;
+}
+export class Volume {
+    public id: number;
+    public aPIURL: string;
+    public detailsURL: string;
+    public startYear: number;
+    public description: string;
+    public imageUrl: string;
+    public name: string;
+    public puplisher: string;
+    public issueIds: number[];
 }

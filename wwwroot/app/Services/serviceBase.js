@@ -9,7 +9,10 @@ var ServiceBase = (function () {
     // wenn Ja, dann Nutzer zeigen, sonst nur intern weiterbehandeln
     ServiceBase.prototype.handleServerError = function (error) {
         var errorHeader = "Error";
-        if (error.headers.has(errorHeader)) {
+        if (error.message) {
+            Global_1.Global.throwError(error.message);
+        }
+        else if (error.headers.has(errorHeader)) {
             Global_1.Global.throwError(error.headers.get(errorHeader));
         }
         else if (error.status == 0 && Global_1.Global.isDebug && Global_1.Global.sessionValid) {

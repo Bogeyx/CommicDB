@@ -8,7 +8,10 @@ export class ServiceBase {
     // wenn Ja, dann Nutzer zeigen, sonst nur intern weiterbehandeln
     protected handleServerError(error: Response) {
         const errorHeader: string = "Error";
-        if (error.headers.has(errorHeader)) {
+        if ((error as any).message) {
+            Global.throwError((error as any).message);
+        } 
+        else if (error.headers.has(errorHeader)) {
             Global.throwError(error.headers.get(errorHeader));
         } else if (error.status == 0 && Global.isDebug && Global.sessionValid) {
             Global.throwError("Verbindung verloren");

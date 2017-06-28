@@ -10,11 +10,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+<<<<<<< HEAD
 var SidebarComponent = (function () {
     function SidebarComponent() {
     }
     SidebarComponent.prototype.ngOnInit = function () {
     };
+=======
+var Global_1 = require("../Global");
+var SidebarComponent = (function () {
+    function SidebarComponent() {
+    }
+    Object.defineProperty(SidebarComponent.prototype, "Global", {
+        get: function () {
+            return Global_1.Global;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SidebarComponent.prototype.ngOnInit = function () {
+    };
+    SidebarComponent.prototype.logout = function () {
+        Global_1.Global.user = null;
+    };
+>>>>>>> 76bd1727d97524cce5c775cbac90a2dc4f74d6e7
     return SidebarComponent;
 }());
 SidebarComponent = __decorate([

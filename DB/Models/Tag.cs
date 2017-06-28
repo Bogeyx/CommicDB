@@ -12,8 +12,6 @@ namespace CommicDB.DB.Models
         public string Name { get; set; }
 
         [NavigationProperty]
-        public List<TagComicRelation> Comics { get; set; }
-        [NavigationProperty]
-        public List<TagListRelation> Lists { get; set; }
+        public List<TagListRelation> Lists { get; set; } = new List<TagListRelation>();
     }
 }

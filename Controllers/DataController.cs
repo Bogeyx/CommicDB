@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using CommicDB.DB;
 using CommicDB.DB.Models;
 using CommicDB.Utility;
+using CommicDB.Utility.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,7 +43,6 @@ namespace CommicDB.Controllers
         public List<Tag> GetAllTags()
         {
             return this._comicDB.Tags
-                .Include(t => t.Comics).ThenInclude(c => c.Comic)
                 .Include(t => t.Lists).ThenInclude(l => l.List)
                 .ToList();
         }
@@ -51,12 +54,13 @@ namespace CommicDB.Controllers
                 .ToList();
         }
 
-        [HttpGet]
-        public User GetUserByName(string userName)
+        [HttpPost]
+        public User LoginUser([FromBody] User partial)
         {
             return this._comicDB.Users
                 .Include(u => u.Lists).ThenInclude(l => l.SubLists)
-                .FirstOrDefault(u => u.Username == userName);
+                .Include(u => u.Lists).ThenInclude(l => l.Comics)
+                .FirstOrDefault(u => u.Username == partial.Username && u.Password == partial.Password);
         }
 
         [HttpGet]
@@ -67,18 +71,10 @@ namespace CommicDB.Controllers
                 .Include(l => l.Tags).ThenInclude(t => t.Tag)
                 .Include(l=> l.SubLists)
                 .Include(l => l.Parent)
-                .Include(l => l.Comics).ThenInclude(c => c.Comic).ThenInclude(l => l.Tags).ThenInclude(t => t.Tag)
+                .Include(l => l.Comics)
                 .FirstOrDefault(l => l.Id == id);
         }
 
-        [HttpGet]
-        public Comic GetComicById(int id)
-        {
-            return this._comicDB.Comics
-                .Include(c => c.Lists).ThenInclude(c => c.List)
-                .Include(c=> c.Tags)
-                .FirstOrDefault(c => c.Id == id);
-        }
 
         #endregion
 
@@ -91,7 +87,7 @@ namespace CommicDB.Controllers
             try
             {
                 this.TryUpdate<User>(newUser);                
-                return this.GetUserByName(newUser.Username);
+                return this.LoginUser(newUser);
             }
             catch (Exception ex)
             {
@@ -114,20 +110,6 @@ namespace CommicDB.Controllers
         }
 
         [HttpPost]
-        public Comic AddOrUpdateComic([FromBody]Comic newComic)
-        {
-            try
-            {
-                this.TryUpdate<Comic>(newComic);                
-                return this.GetComicById(newComic.Id);
-            }
-            catch (Exception ex)
-            {
-                return ClientException<Comic>.Show(ex, this.Response, newComic);
-            }
-        }
-
-        [HttpPost]
         public bool AddTagToList([FromBody]TagListRelation rel)
         {
             try
@@ -142,11 +124,12 @@ namespace CommicDB.Controllers
         }
 
         [HttpPost]
-        public bool AddTagToComic([FromBody]TagComicRelation rel)
+        public bool AddComicToList([FromBody]ListComicRelation rel)
         {
             try
             {
-                this.TryUpdate<TagComicRelation>(rel);
+                this._comicDB.ListComics.Add(rel);
+                this._comicDB.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -159,21 +142,6 @@ namespace CommicDB.Controllers
 
 
         #region Remove
-
-        [HttpGet]
-        public bool RemoveComic(int id)
-        {
-            try
-            {
-                this._comicDB.Comics.Remove(this._comicDB.Comics.First(c => c.Id == id));
-                this._comicDB.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return ClientException<bool>.Show(ex, this.Response, id);
-            }
-        }
 
         [HttpGet]
         public bool RemoveList(int id)
@@ -210,7 +178,9 @@ namespace CommicDB.Controllers
         {
             try
             {
-                return this._comicDB.ListTags.Remove(rel) != null;
+                this._comicDB.ListTags.Remove(rel);
+                this._comicDB.SaveChanges();
+                return true;
             }
             catch (Exception ex)
             {
@@ -218,18 +188,22 @@ namespace CommicDB.Controllers
             }
         }
 
+
         [HttpPost]
-        public bool RemoveTagFromComic([FromBody]TagComicRelation rel)
+        public bool RemoveComicFromList([FromBody]ListComicRelation rel)
         {
             try
             {
-                return this._comicDB.ComicTags.Remove(rel) != null;
+                this._comicDB.ListComics.Remove(rel);
+                this._comicDB.SaveChanges();
+                return true;
             }
             catch (Exception ex)
             {
                 return ClientException<bool>.Show(ex, this.Response, rel);
             }
         }
+
 
         #endregion
 
@@ -271,6 +245,86 @@ namespace CommicDB.Controllers
             }
 
             this._comicDB.SaveChanges();
+        }
+
+
+        /// <summary>
+        /// Liefert die 10 besten Suchergebnisse zurück
+        /// </summary>
+        /// <param name="text">Suchtext</param>
+        /// <returns></returns>
+        public async Task<SearchResult> Search(string text)
+        {
+            var searchResult = new SearchResult();
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+
+                var query = "https://comicvine.gamespot.com/api/search/?api_key=" + Startup.APIKEY + "&query=" + text;
+                var xml = await this.GetApiResult(query, client);
+                XDocument doc = XDocument.Parse(xml);
+                searchResult.Issues = doc.Root.Element("results").Elements("issue").Select(e => new Issue(e)).ToList();
+                searchResult.Volumes = doc.Root.Element("results").Elements("volume").Select(e => new Volume(e)).ToList();
+            }
+
+            return searchResult;
+        }
+
+        /// <summary>
+        /// Liefert die 10 besten Suchergebnisse zurück
+        /// </summary>
+        /// <param name="text">Suchtext</param>
+        /// <returns></returns>
+        public async Task<Issue> GetIssue(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+
+                var query = "https://comicvine.gamespot.com/api/issue/4000-" + id + "?api_key=" + Startup.APIKEY;
+                var xml = await this.GetApiResult(query, client);
+                XDocument doc = XDocument.Parse(xml);
+                return new Issue(doc.Root.Element("results"));
+            }
+        }
+
+        /// <summary>
+        /// Liefert die 10 besten Suchergebnisse zurück
+        /// </summary>
+        /// <param name="text">Suchtext</param>
+        /// <returns></returns>
+        public async Task<Volume> GetVolume(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+
+                var query = "https://comicvine.gamespot.com/api/volume/4050-" + id + "?api_key=" + Startup.APIKEY;
+                var xml = await this.GetApiResult(query, client);
+                XDocument doc = XDocument.Parse(xml);
+                return new Volume(doc.Root.Element("results"));
+            }
+        }
+
+
+        private async Task<string> GetApiResult(string query, HttpClient client)
+        {
+            var found = false;
+            string xml;
+            var hash = query.Replace("https://", "/").Replace("/", "%").Replace("?", "#");
+            var file = Directory.GetFiles("Cache").FirstOrDefault(f => f.Contains(hash));
+
+            if (file != null) {
+                xml = System.IO.File.ReadAllText(file);
+            } else {
+                var result = await client.GetAsync(query);
+                xml = await result.Content.ReadAsStringAsync();
+
+                System.IO.File.WriteAllText("Cache\\" + hash + ".xml", xml);
+            }
+
+            return xml;
         }
     }
 }

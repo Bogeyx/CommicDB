@@ -22,6 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var ServiceBase_1 = require("./ServiceBase");
+var Global_1 = require("../Global");
 var DataService = (function (_super) {
     __extends(DataService, _super);
     function DataService(http) {
@@ -47,8 +48,8 @@ var DataService = (function (_super) {
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
-    DataService.prototype.getUserByName = function (username) {
-        return this.http.get("/data/GetUserByName?username=" + username)
+    DataService.prototype.loginUser = function (user) {
+        return this.http.post("/data/LoginUser", user)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
@@ -57,19 +58,9 @@ var DataService = (function (_super) {
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
-    DataService.prototype.getComicById = function (id) {
-        return this.http.get("/data/GetComicById?id=" + id)
-            .map(this.deserialize)
-            .catch(this.handleServerError);
-    };
     // addOrUpdate
     DataService.prototype.addOrUpdateList = function (list) {
         return this.http.post("/data/AddOrUpdateList", list)
-            .map(this.deserialize)
-            .catch(this.handleServerError);
-    };
-    DataService.prototype.addOrUpdateComic = function (comic) {
-        return this.http.post("/data/AddOrUpdateComic", comic)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
@@ -83,19 +74,14 @@ var DataService = (function (_super) {
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
-    DataService.prototype.addTagToComic = function (rel) {
-        return this.http.post("/data/AddTagToComic", rel)
+    DataService.prototype.addComicToList = function (rel) {
+        return this.http.post("/data/AddComicToList", rel)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
     // remove
     DataService.prototype.removeList = function (id) {
         return this.http.get("/data/RemoveList?id=" + id)
-            .map(this.deserialize)
-            .catch(this.handleServerError);
-    };
-    DataService.prototype.removeComic = function (id) {
-        return this.http.get("/data/RemoveComic?id=" + id)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
@@ -109,8 +95,25 @@ var DataService = (function (_super) {
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
-    DataService.prototype.removeTagFromComic = function (rel) {
-        return this.http.post("/data/RemoveTagFromComic", rel)
+    DataService.prototype.removeComicFromList = function (rel) {
+        var copy = Global_1.Global.clone(rel);
+        return this.http.post("/data/RemoveComicFromList", copy)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    // API
+    DataService.prototype.apiSearch = function (text) {
+        return this.http.get("/data/Search?text=" + text)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.apiGetIssue = function (id) {
+        return this.http.get("/data/GetIssue?id=" + id)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.apiGetVolume = function (id) {
+        return this.http.get("/data/GetVolume?id=" + id)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };

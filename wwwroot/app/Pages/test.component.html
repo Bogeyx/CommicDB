@@ -9,4 +9,23 @@
     <li *ngFor="let tag of tags">{{tag.name}}</li>
 </ul>
 
+<<<<<<< HEAD
 <button (click)="onClick($event)"></button>
+=======
+
+<h1>API Test: Suche nach Batman</h1>
+<div *ngIf="searchResult">
+    <h2>Issues</h2>
+    <ul>
+        <li *ngFor="let issue of searchResult.issues">
+            {{issue.name}}
+            <br />
+            Heft: {{issue.issueNumber}}
+        </li>
+    </ul>
+    <h2>Volumes</h2>
+    <ul>
+        <li *ngFor="let volume of searchResult.volumes">{{volume.name}}</li>
+    </ul>
+</div>
+>>>>>>> 76bd1727d97524cce5c775cbac90a2dc4f74d6e7

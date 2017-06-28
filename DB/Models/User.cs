@@ -18,7 +18,12 @@ namespace CommicDB.DB.Models
         [Required]
         public DateTime RegistrationDate { get; set; }
 
+        public string FormatedRegistrationDate
+        {
+            get { return this.RegistrationDate.ToString("dd.MM.yyyy"); }
+        }
+
         [NavigationProperty]
-        public List<List> Lists { get; set; }
+        public List<List> Lists { get; set; } = new List<List>();
     }
 }

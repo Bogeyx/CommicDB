@@ -1,0 +1,30 @@
+﻿<div *ngIf="Global.user" class="home">
+    <h1>Home</h1>
+    <p>Hier könnte Ihre Werbung stehen, aber stattdessen steht das hier.</p>
+    <br />
+
+    <h3>Unsere Vorschläge</h3>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="homeList">
+                <a href="#">
+                    <h3>Mangaliste</h3>
+                    <img style="height:250px" src="/Images/berserk.jpg" />
+                </a>                
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="homeList">
+                <a href="#">
+                    <h3>Comicliste</h3>
+                    <img style="height:250px" src="/Images/MoonKnight.jpg" />
+                </a>                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!Global.user" class="home">
+    <h1>Ausgeloggt</h1>
+</div>

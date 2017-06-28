@@ -38,6 +38,14 @@
     }
 }
 
+#Login{
+    a:hover,
+    a:focus {
+    color: #565281;
+    text-decoration: none;
+    }
+}
+
 .navbar {
     background-color: #1a1927;
     margin-bottom: 0;
@@ -56,6 +64,17 @@
     .userInfo {
         font-size:20pt;
     }
+}
+
+a {
+  color: #8885a4;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: #1a1927;
+  text-decoration: none;
 }
 
 .right {
@@ -107,6 +126,13 @@ h3 {
 
     a {
         color:white;
+        text-decoration: none;
+    }
+
+    a:hover,
+    a:focus {
+    color: #1a1927;
+    text-decoration: none;
     }
 }
 

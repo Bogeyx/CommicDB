@@ -4,27 +4,11 @@ import { Observable } from "rxjs/Rx";
 
 import { ServiceBase } from "./ServiceBase";
 import { Global } from "../Global";
-import { User, List, Tag, ListComicRelation, TagListRelation, SearchResult, Issue, Volume } from "../Entities/dbObjects";
+import { User, List, Tag, ListComicRelation, TagListRelation, SearchResult, Issue, Volume, CheckData } from "../Entities/dbObjects";
 
 @Injectable()
 export class DataService extends ServiceBase {
     constructor(private http: Http) { super(); }
-
-    // fügt eine Position hinzu
-    examplePost(): Observable<string> {
-        return this.http.post("/data/ExamplePost", "")
-            .map(this.deserialize)
-            .catch(this.handleServerError);
-    }
-
-    // ruft alle Namen der vorhandenen Übersetzungsdateien ab
-    exampleGet(): Observable<string> {
-        return this.http.get("/data/ExampleGet")
-            .map(this.deserialize)
-            .catch(this.handleServerError);
-    }
-
-
 
     // get
     getAllTags(): Observable<Tag[]> {
@@ -71,6 +55,12 @@ export class DataService extends ServiceBase {
             .catch(this.handleServerError);
     }
 
+    addCheckData(data: CheckData): Observable<CheckData> {
+        return this.http.post("/data/AddCheckData", data)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+
 
     // remove
     removeList(id: number): Observable<boolean> {
@@ -94,6 +84,12 @@ export class DataService extends ServiceBase {
     removeComicFromList(rel: ListComicRelation): Observable<boolean> {
         let copy = Global.clone(rel);
         return this.http.post("/data/RemoveComicFromList", copy)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    }
+
+    removeCheckData(rel: TagListRelation): Observable<boolean> {
+        return this.http.post("/data/RemoveCheckData", rel)
             .map(this.deserialize)
             .catch(this.handleServerError);
     }

@@ -21,9 +21,18 @@ var SidebarComponent = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(SidebarComponent.prototype, "NewItems", {
+        get: function () {
+            return Global_1.Global.user.checkData.filter(function (cd) { return cd.hasNew; });
+        },
+        enumerable: true,
+        configurable: true
+    });
     SidebarComponent.prototype.ngOnInit = function () {
     };
     SidebarComponent.prototype.logout = function () {
+        Global_1.Global.deleteCookie("username");
+        Global_1.Global.deleteCookie("password");
         Global_1.Global.user = null;
     };
     return SidebarComponent;

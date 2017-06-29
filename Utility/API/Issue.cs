@@ -44,7 +44,8 @@ namespace CommicDB.Utility.API
             
             this.FormatedRelease = this.Release.ToString("dd.MM.yyyy");
             this.IssueNumber = int.Parse(raw.Element("issue_number").Value);
-            this.Description = raw.Element("description").Value;
+            var desc = raw.Element("description").Value;
+            this.Description =  String.IsNullOrEmpty(desc) ? raw.Element("deck").Value : desc;
             this.ImageUrl = raw.Element("image").Element("medium_url").Value;
             this.Name = raw.Element("name").Value;
             this.VolumeName = raw.Element("volume").Element("name").Value;

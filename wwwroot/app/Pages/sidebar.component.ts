@@ -3,7 +3,7 @@ import { Http } from "@angular/http";
 
 import { AppComponent } from "../app.component";
 import { Global } from "../Global";
-import { User, List, Tag, ListComicRelation, TagListRelation, SearchResult, Issue, Volume } from "../Entities/dbObjects";
+import { User, List, Tag, ListComicRelation, TagListRelation, SearchResult, Issue, Volume, CheckData } from "../Entities/dbObjects";
 
 @Component({
     selector :"sidebar",
@@ -16,6 +16,10 @@ export class SidebarComponent implements OnInit {
         return Global;
     }
 
+    get NewItems() : CheckData[] {
+        return Global.user.checkData.filter(cd => cd.hasNew);
+    }
+
     constructor() {
 
     }
@@ -24,6 +28,8 @@ export class SidebarComponent implements OnInit {
     }
 
     logout(): void {
+        Global.deleteCookie("username");
+        Global.deleteCookie("password");
         Global.user = null;
 
     }

@@ -30,6 +30,12 @@ var TagListRelation = (function () {
     return TagListRelation;
 }());
 exports.TagListRelation = TagListRelation;
+var CheckData = (function () {
+    function CheckData() {
+    }
+    return CheckData;
+}());
+exports.CheckData = CheckData;
 /* API */
 var SearchResult = (function () {
     function SearchResult() {

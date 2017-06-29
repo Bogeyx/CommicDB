@@ -35,6 +35,21 @@
     }
 }
 
+.description {
+    * {
+        color: black !important;
+        font-size: 16px;
+        margin:0;
+        padding:5px;
+    }
+}
+
+.newIssues {
+    background-color: #8986a5;
+    padding: 10px;
+    font-size: 16px;
+}
+
 .homeList {
     text-align:center;
 }

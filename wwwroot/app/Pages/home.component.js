@@ -16,6 +16,13 @@ var HomeComponent = (function () {
     function HomeComponent() {
         this.tmpUser = new dbObjects_1.User();
         this.showLogin = true;
+        var username = Global_1.Global.getCookie("username");
+        var password = Global_1.Global.getCookie("password");
+        if (username && password) {
+            this.tmpUser.username = username;
+            this.tmpUser.password = password;
+            this.login();
+        }
     }
     Object.defineProperty(HomeComponent.prototype, "Global", {
         get: function () {
@@ -30,6 +37,8 @@ var HomeComponent = (function () {
         Global_1.Global.server.loginUser(this.tmpUser).subscribe(function (result) {
             if (result) {
                 Global_1.Global.user = result;
+                Global_1.Global.setCookie("username", result.username);
+                Global_1.Global.setCookie("password", result.password);
             }
             else {
                 alert("Einloggen konnte nicht durchgeführt werden");

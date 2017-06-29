@@ -14,11 +14,21 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CommicDB
 {
     public class Startup
     {
+        /// <summary>
+        /// Scant einmal am Tag nach neuen Ausgabe
+        /// </summary>
+        public static Timer DataTimer { get; private set; }
+
+        /// <summary>
+        /// API Daten
+        /// </summary>
         public static string APIKEY = "f65041c032be86da24e07882e341c3c2363bed7a";
         public static string FULLAPIKEY = "?api_key=" + APIKEY;
 
@@ -60,6 +70,13 @@ namespace CommicDB
             loggerFactory.AddDebug();
             app.UseResponseCompression();
             comicDB.Database.Migrate();
+
+            //CheckService
+            var state = new object();
+            Startup.DataTimer = new Timer((s) =>
+            {
+                CheckNewIssues(comicDB);
+            }, state, 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000);
 
             if (env.IsDevelopment())
             {
@@ -125,6 +142,43 @@ namespace CommicDB
                     defaults: new { controller = "Home"});
             
             });
+        }
+
+        /// <summary>
+        /// Sucht nach neuen Ausgaben
+        /// Und löscht den Cache
+        /// </summary>
+        /// <returns></returns>
+        private async void CheckNewIssues(ComicDBContext comicDB)
+        {
+            try
+            {
+                var checkData = comicDB.CheckData.ToList();
+                var controller = new DataController(comicDB);
+
+                foreach(var check in checkData)
+                {
+                    var volume = await controller.GetVolume(check.VolumeId);
+
+                    if(check.LastCount != volume.IssueCount)
+                    {
+                        check.LastCount = volume.IssueCount;
+                        check.HasNew = true;
+                    }
+                }
+
+                comicDB.SaveChanges();
+
+                //Cache aufräumen
+                foreach(var file in Directory.GetFiles("Cache"))
+                {
+                    File.Delete(file);
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }            
         }
     }
 }

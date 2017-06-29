@@ -12,6 +12,7 @@ namespace CommicDB.DB
         public DbSet<List> Lists { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<CheckData> CheckData { get; set; }
 
         public DbSet<TagListRelation> ListTags { get; set; }
         public DbSet<ListComicRelation> ListComics { get; set; }

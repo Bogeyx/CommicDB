@@ -7,4 +7,10 @@
         <a routerLink="/home" routerLinkActive="active" (mousedown)="logout()">Logout</a>
     </div>
     <br>
+    <div class="newIssues">
+        <ul>
+            <li *ngIf="NewItems.length === 0">Es sind keine neuen Ausgaben erschienen :(</li>
+            <li *ngFor="let item of NewItems">Neue Ausgabe in: {{item.volumeName}}</li>
+        </ul>
+    </div>
 </div>

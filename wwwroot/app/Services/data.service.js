@@ -30,18 +30,6 @@ var DataService = (function (_super) {
         _this.http = http;
         return _this;
     }
-    // fügt eine Position hinzu
-    DataService.prototype.examplePost = function () {
-        return this.http.post("/data/ExamplePost", "")
-            .map(this.deserialize)
-            .catch(this.handleServerError);
-    };
-    // ruft alle Namen der vorhandenen Übersetzungsdateien ab
-    DataService.prototype.exampleGet = function () {
-        return this.http.get("/data/ExampleGet")
-            .map(this.deserialize)
-            .catch(this.handleServerError);
-    };
     // get
     DataService.prototype.getAllTags = function () {
         return this.http.get("/data/GetAllTags")
@@ -79,6 +67,11 @@ var DataService = (function (_super) {
             .map(this.deserialize)
             .catch(this.handleServerError);
     };
+    DataService.prototype.addCheckData = function (data) {
+        return this.http.post("/data/AddCheckData", data)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
     // remove
     DataService.prototype.removeList = function (id) {
         return this.http.get("/data/RemoveList?id=" + id)
@@ -98,6 +91,11 @@ var DataService = (function (_super) {
     DataService.prototype.removeComicFromList = function (rel) {
         var copy = Global_1.Global.clone(rel);
         return this.http.post("/data/RemoveComicFromList", copy)
+            .map(this.deserialize)
+            .catch(this.handleServerError);
+    };
+    DataService.prototype.removeCheckData = function (rel) {
+        return this.http.post("/data/RemoveCheckData", rel)
             .map(this.deserialize)
             .catch(this.handleServerError);
     };

@@ -16,6 +16,8 @@ namespace CommicDB.Utility.API
 
         public int StartYear { get; set; }
 
+        public int IssueCount { get; set; }
+
         public string Description { get; set; }
 
         public string ImageUrl { get; set; }
@@ -51,6 +53,8 @@ namespace CommicDB.Utility.API
                     e => this.IssueIds.Add(int.Parse(e.Element("id").Value))
                 );
             }
+
+            this.IssueCount = int.Parse(raw.Element("last_issue").Element("issue_number").Value);
         }
     }
 }

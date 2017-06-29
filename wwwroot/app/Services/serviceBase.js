@@ -21,12 +21,6 @@ var ServiceBase = (function () {
         }
         return Rx_1.Observable.throw(error);
     };
-    // überprüft, ob die Nachricht im korrektem Format ist.
-    // wenn Ja, dann Nutzer zeigen, sonst nur intern weiterbehandeln
-    ServiceBase.prototype.handleRetry = function (errors) {
-        return errors.mergeMap(function (error) { return (error.status == 0) ? Rx_1.Observable.of(error) : Rx_1.Observable.throw(error); })
-            .delay(1000).take(2);
-    };
     // löst die Antwort vom Server auf
     ServiceBase.prototype.deserialize = function (data) {
         var text = data.text();

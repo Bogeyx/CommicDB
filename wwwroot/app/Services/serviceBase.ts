@@ -21,15 +21,6 @@ export class ServiceBase {
         return Observable.throw(error);
     }
 
-    // überprüft, ob die Nachricht im korrektem Format ist.
-    // wenn Ja, dann Nutzer zeigen, sonst nur intern weiterbehandeln
-    protected handleRetry(errors: Observable<any>): Observable<any> {
-        return errors.mergeMap(
-            (error) => (error.status == 0) ? Observable.of(error) : Observable.throw(error)
-        )
-        .delay(1000).take(2);
-    }
-
     // löst die Antwort vom Server auf
     protected deserialize(data: Response): any {
         let text = data.text();

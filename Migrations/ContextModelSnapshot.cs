@@ -16,6 +16,29 @@ namespace CommicDB.Migrations
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("CommicDB.DB.Models.CheckData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("HasNew");
+
+                    b.Property<int>("LastCount");
+
+                    b.Property<string>("UserName")
+                        .IsRequired();
+
+                    b.Property<int>("VolumeId");
+
+                    b.Property<int>("VolumeName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserName");
+
+                    b.ToTable("CheckData");
+                });
+
             modelBuilder.Entity("CommicDB.DB.Models.List", b =>
                 {
                     b.Property<int>("Id")
@@ -95,6 +118,14 @@ namespace CommicDB.Migrations
                     b.HasKey("Username");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CommicDB.DB.Models.CheckData", b =>
+                {
+                    b.HasOne("CommicDB.DB.Models.User", "User")
+                        .WithMany("CheckData")
+                        .HasForeignKey("UserName")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CommicDB.DB.Models.List", b =>

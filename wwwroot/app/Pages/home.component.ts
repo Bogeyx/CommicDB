@@ -20,7 +20,14 @@ export class HomeComponent implements OnInit {
     
 
     constructor() {
+        var username = Global.getCookie("username");
+        var password = Global.getCookie("password");
 
+        if (username && password) {
+            this.tmpUser.username = username;
+            this.tmpUser.password = password;
+            this.login();
+        }
     }
 
     ngOnInit(): void {
@@ -30,6 +37,8 @@ export class HomeComponent implements OnInit {
         Global.server.loginUser(this.tmpUser).subscribe(result => {
             if (result) {
                 Global.user = result;
+                Global.setCookie("username", result.username);
+                Global.setCookie("password", result.password);
             } else {
                 alert("Einloggen konnte nicht durchgeführt werden");
             }           

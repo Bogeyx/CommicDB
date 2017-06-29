@@ -17,6 +17,8 @@
     public formatedBDay: Date;
     /*[NavigationProperty]*/
     public lists: List[];
+    /*[NavigationProperty]*/
+    public checkData: CheckData[];
 }
 
 export class Tag {
@@ -61,6 +63,22 @@ export class TagListRelation {
     /*[NavigationProperty]*/
     public list: List;
 }
+export class CheckData {
+    /*[Key]*/
+    public id: number;
+    /*[Required]*/
+    public userName: string;
+    /*[Required]*/
+    public volumeId: number;
+    /*[Required]*/
+    public volumeName: number;
+    /*[Required]*/
+    public lastCount: number;
+    /*[Required]*/
+    public hasNew: boolean;
+    /*[NavigationProperty]*/
+    public user: User;
+}
 
 
 /* API */
@@ -86,6 +104,7 @@ export class Volume {
     public aPIURL: string;
     public detailsURL: string;
     public startYear: number;
+    public issueCount: number;
     public description: string;
     public imageUrl: string;
     public name: string;

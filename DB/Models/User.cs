@@ -37,5 +37,7 @@ namespace CommicDB.DB.Models
 
         [NavigationProperty]
         public List<List> Lists { get; set; } = new List<List>();
+        [NavigationProperty]
+        public List<CheckData> CheckData { get; set; } = new List<CheckData>();
     }
 }

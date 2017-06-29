@@ -11,7 +11,6 @@ import { AppComponent } from "./app.component";
 // Sonstiges
 import { Global } from "./Global";
 import { DataService } from "./Services/data.service";
-import { TestComponent } from "./Pages/test.component";
 import { MyPageComponent } from "./Pages/myPage.component";
 import { SearchComponent } from "./Pages/search.component";
 import { HomeComponent } from "./Pages/home.component";
@@ -43,7 +42,6 @@ declare var loadingInterval: any;
 
     declarations: [
         AppComponent,
-        TestComponent,
         MyPageComponent,
         SearchComponent,
         HomeComponent,

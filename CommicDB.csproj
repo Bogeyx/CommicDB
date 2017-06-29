@@ -17,7 +17,6 @@
     <Content Include="wwwroot\app\app.module.js.map" />
     <Content Include="wwwroot\app\app.module.ts" />
     <Content Include="wwwroot\app\Entities\cookie.js" />
-    <Content Include="wwwroot\app\Entities\cookie.js.map" />
     <Content Include="wwwroot\app\Entities\cookie.ts" />
     <Content Include="wwwroot\app\Entities\dbObjects.ts" />
     <Content Include="wwwroot\app\global.js" />
@@ -29,7 +28,6 @@
     <Content Include="wwwroot\app\mainBuild.js" />
     <Content Include="wwwroot\app\mainBuild.js.map" />
     <Content Include="wwwroot\app\mainBuild.ts" />
-    <Content Include="wwwroot\app\Pages\test.component.html" />
     <Content Include="wwwroot\app\Pages\test.component.ts" />
     <Content Include="wwwroot\app\Services\data.service.js" />
     <Content Include="wwwroot\app\Services\data.service.js.map" />

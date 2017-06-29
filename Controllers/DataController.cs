@@ -63,6 +63,7 @@ namespace CommicDB.Controllers
                 .Include(u => u.Lists).ThenInclude(l => l.Comics)
                 .Include(u => u.Lists).ThenInclude(l => l.Tags)
                 .Include(u => u.Lists).ThenInclude(l => l.Parent)
+                .Include(u => u.CheckData)
                 .FirstOrDefault(u => u.Username == partial.Username && u.Password == partial.Password);
         }
 
@@ -142,6 +143,25 @@ namespace CommicDB.Controllers
             }
         }
 
+
+        [HttpPost]
+        public async Task<CheckData> AddCheckData([FromBody]CheckData data)
+        {
+            try
+            {
+                var volume = await GetVolume(data.VolumeId);
+                data.LastCount = volume.IssueCount;
+
+                this._comicDB.CheckData.Add(data);
+                this._comicDB.SaveChanges();
+                return data;
+            }
+            catch (Exception ex)
+            {
+                return ClientException<CheckData>.Show(ex, this.Response, data);
+            }
+        }
+
         #endregion
 
 
@@ -205,6 +225,21 @@ namespace CommicDB.Controllers
             catch (Exception ex)
             {
                 return ClientException<bool>.Show(ex, this.Response, rel);
+            }
+        }
+
+        [HttpPost]
+        public bool RemoveCheckData([FromBody]CheckData data)
+        {
+            try
+            {
+                this._comicDB.CheckData.Remove(data);
+                this._comicDB.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return ClientException<bool>.Show(ex, this.Response, data);
             }
         }
 

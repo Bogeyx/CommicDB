@@ -11,8 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Global_1 = require("../Global");
+var dbObjects_1 = require("../Entities/dbObjects");
 var HomeComponent = (function () {
     function HomeComponent() {
+        this.tmpUser = new dbObjects_1.User();
+        this.showLogin = true;
     }
     Object.defineProperty(HomeComponent.prototype, "Global", {
         get: function () {
@@ -22,6 +25,27 @@ var HomeComponent = (function () {
         configurable: true
     });
     HomeComponent.prototype.ngOnInit = function () {
+    };
+    HomeComponent.prototype.login = function () {
+        Global_1.Global.server.loginUser(this.tmpUser).subscribe(function (result) {
+            if (result) {
+                Global_1.Global.user = result;
+            }
+            else {
+                alert("Einloggen konnte nicht durchgeführt werden");
+            }
+        });
+    };
+    HomeComponent.prototype.register = function () {
+        var _this = this;
+        Global_1.Global.server.addOrUpdateUser(this.tmpUser).subscribe(function (result) {
+            if (result) {
+                _this.login();
+            }
+            else {
+                alert("Registrierung konnte nicht durchgeführt werden");
+            }
+        });
     };
     return HomeComponent;
 }());

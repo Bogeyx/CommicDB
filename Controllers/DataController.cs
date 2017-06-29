@@ -13,6 +13,7 @@ using CommicDB.Utility;
 using CommicDB.Utility.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CommicDB.Controllers
 {
@@ -230,7 +231,7 @@ namespace CommicDB.Controllers
             T other;
             if ((other = data.FirstOrDefault(d => keyAttr.GetValue(d).Equals(key))) != null)
             {
-                foreach(var prop in props.Where(p => p.GetCustomAttribute<NavigationPropertyAttribute>() == null))
+                foreach(var prop in props.Where(p => p.GetCustomAttribute<NavigationPropertyAttribute>() == null && p.GetCustomAttribute<NotMappedAttribute>() == null))
                 {
                     prop.SetValue(other, prop.GetValue(entity));
                 }
@@ -239,8 +240,12 @@ namespace CommicDB.Controllers
             // Add
             else
             {
-                keyAttr.SetValue(entity, null);
-                foreach (var prop in props.Where(p => p.GetCustomAttribute<NavigationPropertyAttribute>() != null))
+                if (keyAttr.PropertyType.Name.Equals(typeof(int).Name))
+                {
+                    keyAttr.SetValue(entity, null);
+                }
+
+                foreach (var prop in props.Where(p => p.GetCustomAttribute<NavigationPropertyAttribute>() != null && p.GetCustomAttribute<NotMappedAttribute>() == null))
                 {
                     prop.SetValue(entity, null);
                 }
@@ -275,7 +280,7 @@ namespace CommicDB.Controllers
         }
 
         /// <summary>
-        /// Liefert die 10 besten Suchergebnisse zurück
+        /// Liefert die 10 besten Suchergebnisse an Comics zurück
         /// </summary>
         /// <param name="text">Suchtext</param>
         /// <returns></returns>
@@ -293,7 +298,7 @@ namespace CommicDB.Controllers
         }
 
         /// <summary>
-        /// Liefert die 10 besten Suchergebnisse zurück
+        /// Liefert die 10 besten Suchergebnisse an Volumes zurück
         /// </summary>
         /// <param name="text">Suchtext</param>
         /// <returns></returns>

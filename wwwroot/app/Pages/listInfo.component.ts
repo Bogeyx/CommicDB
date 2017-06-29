@@ -14,6 +14,7 @@ import { User, List, Tag, ListComicRelation, TagListRelation, SearchResult, Issu
 export class ListInfoComponent implements OnInit {
     public list: List;
     public issues: Issue[] = [];
+    public isBot: boolean;
 
     constructor(private route: ActivatedRoute) {
     }
@@ -22,7 +23,12 @@ export class ListInfoComponent implements OnInit {
         this.route.params.subscribe(params => {
             if (params['listId']) {
                 let id = +params['listId'];
-                this.list = Global.user.lists.find(l => l.id == id);
+                if (id !== 1005 && id !== 1006) {
+                    this.list = Global.user.lists.find(l => l.id == id);
+                } else {
+                    this.isBot = true;
+                    this.list = Global.bot.lists.find(l => l.id == id);
+                }
 
                 this.list.comics.forEach(c => {
                     Global.server.apiGetIssue(c.comicId).subscribe(result => {

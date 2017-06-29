@@ -23,7 +23,13 @@ var ListInfoComponent = (function () {
         this.route.params.subscribe(function (params) {
             if (params['listId']) {
                 var id_1 = +params['listId'];
-                _this.list = Global_1.Global.user.lists.find(function (l) { return l.id == id_1; });
+                if (id_1 !== 1005 && id_1 !== 1006) {
+                    _this.list = Global_1.Global.user.lists.find(function (l) { return l.id == id_1; });
+                }
+                else {
+                    _this.isBot = true;
+                    _this.list = Global_1.Global.bot.lists.find(function (l) { return l.id == id_1; });
+                }
                 _this.list.comics.forEach(function (c) {
                     Global_1.Global.server.apiGetIssue(c.comicId).subscribe(function (result) {
                         _this.issues.push(result);

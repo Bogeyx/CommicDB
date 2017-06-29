@@ -17,13 +17,12 @@ export class AppComponent implements OnInit {
     }
 
     constructor() {
+        let bot = new User();
+        bot.username = "Bot";
+        bot.password = "bot";
 
-        let user = new User();
-        user.username = "TestUser";
-        user.password = "none";
-
-        Global.server.loginUser(user).subscribe(result => {
-            Global.user = result;
+        Global.server.loginUser(bot).subscribe(result => {
+            Global.bot = result;
         });
 
         Global.server.getAllTags().subscribe(result => {

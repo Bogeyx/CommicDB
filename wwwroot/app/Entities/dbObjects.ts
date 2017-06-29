@@ -5,11 +5,16 @@
     public password: string;
     /*[Required]*/
     public email: string;
+    /*[Required]*/
+    public name: string;
+    /*[Required]*/
+    public bDay: Date;
     public options: string;
     /*[Required]*/
     public registrationDate: Date;
 
     public formatedRegistrationDate: Date;
+    public formatedBDay: Date;
     /*[NavigationProperty]*/
     public lists: List[];
 }

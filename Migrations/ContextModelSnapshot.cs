@@ -77,7 +77,12 @@ namespace CommicDB.Migrations
                     b.Property<string>("Username")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("BDay");
+
                     b.Property<string>("Email")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
                         .IsRequired();
 
                     b.Property<string>("Options");

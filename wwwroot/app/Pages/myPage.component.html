@@ -11,7 +11,7 @@
     <ul *ngIf="Global.user" class="lists">
         <li *ngFor="let list of FilteredLists" class="listItem">
             <div>
-                <b><a routerLink="/listInfo/{{list.id}}" routerLinkActive="active">{{list.name}} </a></b>
+                <b><a routerLink="/listInfo/{{list.id}}" routerLinkActive="active">{{list.name}}</a></b>
                 <br />
                 <span> Elemente: {{list.comics == null ? 0 : list.comics.length}}</span>
                 <div class="tagList">

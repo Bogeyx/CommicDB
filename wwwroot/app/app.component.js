@@ -14,11 +14,11 @@ var Global_1 = require("./Global");
 var dbObjects_1 = require("./Entities/dbObjects");
 var AppComponent = (function () {
     function AppComponent() {
-        var user = new dbObjects_1.User();
-        user.username = "TestUser";
-        user.password = "none";
-        Global_1.Global.server.loginUser(user).subscribe(function (result) {
-            Global_1.Global.user = result;
+        var bot = new dbObjects_1.User();
+        bot.username = "Bot";
+        bot.password = "bot";
+        Global_1.Global.server.loginUser(bot).subscribe(function (result) {
+            Global_1.Global.bot = result;
         });
         Global_1.Global.server.getAllTags().subscribe(function (result) {
             Global_1.Global.allTags = result;

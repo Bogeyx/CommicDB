@@ -7,18 +7,18 @@
     <div class="row">
         <div class="col-xs-12 col-sm-6">
             <div class="homeList">
-                <a href="#">
+                <a routerLink="/listInfo/1005" routerLinkActive="active">
                     <h3>Mangaliste</h3>
-                    <img style="height:250px" src="/Images/berserk.jpg" />
+                    <img style="height:250px" src="/Images/hellsing.jpg" />
                 </a>                
             </div>
         </div>
 
         <div class="col-xs-12 col-sm-6">
             <div class="homeList">
-                <a href="#">
+                <a routerLink="/listInfo/1006" routerLinkActive="active">
                     <h3>Comicliste</h3>
-                    <img style="height:250px" src="/Images/MoonKnight.jpg" />
+                    <img style="height:250px" src="/Images/razor.jpg" />
                 </a>                
             </div>
         </div>
@@ -26,5 +26,52 @@
 </div>
 
 <div *ngIf="!Global.user" class="home">
-    <h1>Ausgeloggt</h1>
+    <div *ngIf="showLogin">
+        <h1>Einloggen</h1>
+        <form #loginForm="ngForm">
+            <div class="form-group">
+                <label for="name">Username</label>
+                <input type="text" class="form-control" id="name" required [(ngModel)]="tmpUser.userName" name="userName">
+            </div>
+            <div class="form-group">
+                <label for="name">Passwort</label>
+                <input type="password" class="form-control" id="password" required [(ngModel)]="tmpUser.password" name="password">
+            </div>
+
+            <button (click)="login()">Einloggen</button>
+            <br /><br />
+            <a href="#" (click)="showLogin = !showLogin">Registrieren</a>
+        </form>
+    </div>
+
+    <div *ngIf="!showLogin">
+        <h1>Registrieren</h1>
+        <form #loginForm="ngForm">
+            <div class="form-group">
+                <label for="name">Username</label>
+                <input type="text" class="form-control" id="userName" required [(ngModel)]="tmpUser.userName" name="userName">
+            </div>
+            <div class="form-group">
+                <label for="name">Passwort</label>
+                <input type="password" class="form-control" id="password" required [(ngModel)]="tmpUser.password" name="password">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" required [(ngModel)]="tmpUser.name" name="name">
+            </div>
+            <div class="form-group">
+                <label for="name">Email</label>
+                <input type="email" class="form-control" id="email" required [(ngModel)]="tmpUser.email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="name">Geburtstag</label>
+                <input type="date" class="form-control" id="bDay" required [(ngModel)]="tmpUser.bDay" name="bDay">
+            </div>
+
+            <button (click)="register()">Registrieren</button>
+            <br /><br />
+            <a href="#" (click)="showLogin = !showLogin">Einloggen</a>
+        </form>
+    </div>
 </div>

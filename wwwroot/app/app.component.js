@@ -20,6 +20,9 @@ var AppComponent = (function () {
         Global_1.Global.server.loginUser(user).subscribe(function (result) {
             Global_1.Global.user = result;
         });
+        Global_1.Global.server.getAllTags().subscribe(function (result) {
+            Global_1.Global.allTags = result;
+        });
     }
     Object.defineProperty(AppComponent.prototype, "Global", {
         get: function () {

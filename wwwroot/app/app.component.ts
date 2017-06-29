@@ -25,6 +25,10 @@ export class AppComponent implements OnInit {
         Global.server.loginUser(user).subscribe(result => {
             Global.user = result;
         });
+
+        Global.server.getAllTags().subscribe(result => {
+            Global.allTags = result;
+        });
     }
 
     ngOnInit(): void {

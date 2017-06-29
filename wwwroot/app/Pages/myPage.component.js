@@ -14,7 +14,7 @@ var Global_1 = require("../Global");
 var dbObjects_1 = require("../Entities/dbObjects");
 var MyPageComponent = (function () {
     function MyPageComponent() {
-        var allTags = Global_1.Global.server.getAllTags();
+        this.filter = "";
     }
     Object.defineProperty(MyPageComponent.prototype, "Global", {
         get: function () {
@@ -23,22 +23,43 @@ var MyPageComponent = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(MyPageComponent.prototype, "FilteredLists", {
+        get: function () {
+            var _this = this;
+            if (this.filter.length > 0) {
+                return Global_1.Global.user.lists.filter(function (l) { return l.tags.find(function (t) { return t.tagName === _this.filter; }) !== undefined; });
+            }
+            else {
+                return Global_1.Global.user.lists;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     MyPageComponent.prototype.ngOnInit = function () {
     };
-    MyPageComponent.prototype.addTag = function (input) {
-        var listName = input.value;
-        var tagName = input.value;
-        if (tagName && tagName.length > 2) {
-            var tag = new dbObjects_1.Tag();
-            tag.name = tagName;
-            var list = new dbObjects_1.List();
-            list.name = listName;
-            Global_1.Global.server.addTagToList(dbObjects_1.TagListRelation).subscribe(function (result) {
-                Global_1.Global.user.lists.push(result);
+    MyPageComponent.prototype.missing = function (list) {
+        return Global_1.Global.allTags != null ? Global_1.Global.allTags.filter(function (t) { return list.tags.every(function (tl) { return tl.tagName !== t.name; }); }) : null;
+    };
+    MyPageComponent.prototype.addTag = function (list, tagName) {
+        if (tagName.length > 0) {
+            var rel_1 = new dbObjects_1.TagListRelation();
+            rel_1.listId = list.id;
+            rel_1.tagName = tagName;
+            Global_1.Global.server.addTagToList(rel_1).subscribe(function (result) {
+                list.tags.push(rel_1);
             });
         }
-        else {
-            alert("Name ungültig");
+    };
+    MyPageComponent.prototype.deleteTag = function (list, tagName) {
+        if (confirm("Wirklich löschen?")) {
+            var rel = new dbObjects_1.TagListRelation();
+            rel.listId = list.id;
+            rel.tagName = tagName;
+            Global_1.Global.server.removeTagFromList(rel).subscribe(function (result) {
+                var toDelete = list.tags.indexOf(list.tags.find(function (t) { return t.tagName === tagName; }));
+                list.tags.splice(toDelete, 1);
+            });
         }
     };
     MyPageComponent.prototype.addList = function (input) {
@@ -62,10 +83,12 @@ var MyPageComponent = (function () {
         }
     };
     MyPageComponent.prototype.delete = function (id) {
-        Global_1.Global.server.removeList(id).subscribe(function (result) {
-            var toDelete = Global_1.Global.user.lists.indexOf(Global_1.Global.user.lists.find(function (l) { return l.id === id; }));
-            Global_1.Global.user.lists.splice(toDelete, 1);
-        });
+        if (confirm("Wirklich löschen?")) {
+            Global_1.Global.server.removeList(id).subscribe(function (result) {
+                var toDelete = Global_1.Global.user.lists.indexOf(Global_1.Global.user.lists.find(function (l) { return l.id === id; }));
+                Global_1.Global.user.lists.splice(toDelete, 1);
+            });
+        }
     };
     return MyPageComponent;
 }());

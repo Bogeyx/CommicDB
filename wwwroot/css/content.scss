@@ -17,13 +17,21 @@
 }
 
 .listItem div {
+    position:relative;
+
     b {
-        font-size:18px;
-        padding-right:5px;
+        font-size: 18px;
+        padding-right: 5px;
     }
 
     * {
         vertical-align: middle;
+    }
+
+    .buttons {
+        position: absolute;
+        bottom: 5px;
+        right: 0;
     }
 }
 

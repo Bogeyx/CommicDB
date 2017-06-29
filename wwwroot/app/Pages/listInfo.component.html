@@ -1,5 +1,16 @@
 ﻿<div class="profile" *ngIf="list">
     <h1>Info über Liste {{list.name}}</h1>
+    <b>
+        Tags:
+        <span *ngFor="let tag of list.tags">{{tag.tagName}} <i (click)="deleteTag(list, tag.tagName)"></i>,</span>
+        <select (change)="addTag(list, $event.target.value)">
+            <option selected value="">Tag hinzufügen</option>
+            <option *ngFor="let tag of missing(list)" value="{{tag.name}}">{{tag.name}}</option>
+        </select>
+    </b>
+    <br />
+    <br />
+
     <ul class="comicList">
         <li *ngFor="let issue of issues">
             <div class="row">

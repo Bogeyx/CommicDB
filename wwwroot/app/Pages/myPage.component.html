@@ -1,25 +1,30 @@
 ﻿<div class="myPage">
     <h1>Meine Listen</h1>
-    </div>
-        <input #inputField placeholder="TagName"/>
-        <select id="{{issue.id}}" >
-            <option *ngFor="let list of Global.user.lists" value="{{list.id}}">{{list.name}}</option>
-        </select>
-        <button (click)="addTag(inputField)">Tag hinzufügen</button>
-    </div>
     <div>
         <label>Listen filtern:
-			<select>
-				<option>kein Filter</option>
+			<select (change)="filter = $event.target.value">
+				<option value="">kein Filter</option>
+                <option *ngFor="let tag of Global.allTags" value="{{tag.name}}">{{tag.name}}</option>
 			</select>
 		</label>  
     </div>
     <ul *ngIf="Global.user" class="lists">
-        <li *ngFor="let list of Global.user.lists" class="listItem">
+        <li *ngFor="let list of FilteredLists" class="listItem">
             <div>
                 <b><a routerLink="/listInfo/{{list.id}}" routerLinkActive="active">{{list.name}} </a></b>
+                <br />
                 <span> Elemente: {{list.comics == null ? 0 : list.comics.length}}</span>
-                <button (click)="delete(list.id)" class="right">Liste löschen</button>
+                <div class="tagList">
+                    <span>Tags:</span>
+                    <span *ngFor="let tag of list.tags">{{tag.tagName}} <i (click)="deleteTag(list, tag.tagName)">X</i>,</span>
+                </div>
+                <div class="buttons">
+                    <button (click)="delete(list.id)">Liste löschen</button>
+                    <select (change)="addTag(list, $event.target.value)">
+                        <option selected value="">Tag hinzufügen</option>
+                        <option *ngFor="let tag of missing(list)" value="{{tag.name}}">{{tag.name}}</option>
+                    </select>
+                </div>
             </div>
             <hr />           
         </li>

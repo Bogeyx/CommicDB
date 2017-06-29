@@ -11,33 +11,53 @@ import { User, List, Tag, ListComicRelation, TagListRelation, SearchResult, Issu
 })
 
 export class MyPageComponent implements OnInit {
+    public filter: string = "";
+
     get Global() {
         return Global;
     }
 
+    get FilteredLists() {
+        if (this.filter.length > 0) {
+            return Global.user.lists.filter(l => l.tags.find(t => t.tagName === this.filter) !== undefined);
+        } else {
+            return Global.user.lists;
+        }
+    }
+
 
     constructor() {
-        let allTags = Global.server.getAllTags();
     }
 
     ngOnInit(): void {
     }
 
-    addTag(input: HTMLInputElement){
-        let listName = input.value;
-        let tagName = input.value;
+    missing(list: List): Tag[] {
+        return Global.allTags != null ? Global.allTags.filter(t => list.tags.every(tl => tl.tagName !== t.name)) : null;
+    }
 
-        if (tagName && tagName.length > 2) {
-            let tag = new Tag();
-            tag.name = tagName;
-            let list = new List();
-            list.name = listName;
-            
-            Global.server.addTagToList(TagListRelation).subscribe(result => {
-                Global.user.lists.push(result);
-            })
-        } else {
-            alert("Name ungültig");
+    addTag(list: List, tagName: string) {
+        if (tagName.length > 0) {
+            let rel = new TagListRelation();
+            rel.listId = list.id;
+            rel.tagName = tagName;
+
+            Global.server.addTagToList(rel).subscribe(result => {
+                list.tags.push(rel);
+            });
+        }
+    }
+
+    deleteTag(list: List, tagName: string) {
+        if (confirm("Wirklich löschen?")) {
+            let rel = new TagListRelation();
+            rel.listId = list.id;
+            rel.tagName = tagName;
+
+            Global.server.removeTagFromList(rel).subscribe(result => {
+                let toDelete = list.tags.indexOf(list.tags.find(t => t.tagName === tagName));
+                list.tags.splice(toDelete, 1);
+            });
         }
     }
 
@@ -63,9 +83,11 @@ export class MyPageComponent implements OnInit {
     }
 
     delete(id: number) {
-        Global.server.removeList(id).subscribe(result => {
-            let toDelete = Global.user.lists.indexOf(Global.user.lists.find(l => l.id === id));
+        if (confirm("Wirklich löschen?")) {
+            Global.server.removeList(id).subscribe(result => {
+                let toDelete = Global.user.lists.indexOf(Global.user.lists.find(l => l.id === id));
                 Global.user.lists.splice(toDelete, 1);
-        })
+            })
+        }
     }
 }

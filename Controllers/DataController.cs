@@ -60,6 +60,8 @@ namespace CommicDB.Controllers
             return this._comicDB.Users
                 .Include(u => u.Lists).ThenInclude(l => l.SubLists)
                 .Include(u => u.Lists).ThenInclude(l => l.Comics)
+                .Include(u => u.Lists).ThenInclude(l => l.Tags)
+                .Include(u => u.Lists).ThenInclude(l => l.Parent)
                 .FirstOrDefault(u => u.Username == partial.Username && u.Password == partial.Password);
         }
 
@@ -114,7 +116,8 @@ namespace CommicDB.Controllers
         {
             try
             {
-                this.TryUpdate<TagListRelation>(rel);
+                this._comicDB.ListTags.Add(rel);
+                this._comicDB.SaveChanges();
                 return true;
             }
             catch (Exception ex)

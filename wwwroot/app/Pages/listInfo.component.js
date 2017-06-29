@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var Global_1 = require("../Global");
+var dbObjects_1 = require("../Entities/dbObjects");
 var ListInfoComponent = (function () {
     function ListInfoComponent(route) {
         this.route = route;
@@ -31,19 +32,45 @@ var ListInfoComponent = (function () {
             }
         });
     };
+    ListInfoComponent.prototype.missing = function (list) {
+        return Global_1.Global.allTags != null ? Global_1.Global.allTags.filter(function (t) { return list.tags.every(function (tl) { return tl.tagName !== t.name; }); }) : null;
+    };
+    ListInfoComponent.prototype.addTag = function (list, tagName) {
+        if (tagName.length > 0) {
+            var rel_1 = new dbObjects_1.TagListRelation();
+            rel_1.listId = list.id;
+            rel_1.tagName = tagName;
+            Global_1.Global.server.addTagToList(rel_1).subscribe(function (result) {
+                list.tags.push(rel_1);
+            });
+        }
+    };
+    ListInfoComponent.prototype.deleteTag = function (list, tagName) {
+        if (confirm("Wirklich löschen?")) {
+            var rel = new dbObjects_1.TagListRelation();
+            rel.listId = list.id;
+            rel.tagName = tagName;
+            Global_1.Global.server.removeTagFromList(rel).subscribe(function (result) {
+                var toDelete = list.tags.indexOf(list.tags.find(function (t) { return t.tagName === tagName; }));
+                list.tags.splice(toDelete, 1);
+            });
+        }
+    };
     ListInfoComponent.prototype.delete = function (issueId) {
         var _this = this;
-        Global_1.Global.server.removeComicFromList(this.list.comics.find(function (c) { return c.comicId == issueId; })).subscribe(function (result) {
-            if (!result) {
-                alert("Eintrag konnte nicht gelöscht werden");
-            }
-            else {
-                var toDelete = _this.list.comics.indexOf(_this.list.comics.find(function (c) { return c.comicId === issueId; }));
-                _this.list.comics.splice(toDelete, 1);
-                var toDeleteIssue = _this.issues.indexOf(_this.issues.find(function (i) { return i.id == issueId; }));
-                _this.issues.splice(toDeleteIssue, 1);
-            }
-        });
+        if (confirm("Wirklich löschen?")) {
+            Global_1.Global.server.removeComicFromList(this.list.comics.find(function (c) { return c.comicId == issueId; })).subscribe(function (result) {
+                if (!result) {
+                    alert("Eintrag konnte nicht gelöscht werden");
+                }
+                else {
+                    var toDelete = _this.list.comics.indexOf(_this.list.comics.find(function (c) { return c.comicId === issueId; }));
+                    _this.list.comics.splice(toDelete, 1);
+                    var toDeleteIssue = _this.issues.indexOf(_this.issues.find(function (i) { return i.id == issueId; }));
+                    _this.issues.splice(toDeleteIssue, 1);
+                }
+            });
+        }
     };
     return ListInfoComponent;
 }());

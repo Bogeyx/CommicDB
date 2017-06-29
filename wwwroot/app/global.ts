@@ -11,6 +11,8 @@ export class Global {
 
     public static user: User;
 
+    public static allTags: Tag[];
+
     // wirft eine sichtbare Fehlermeldung
     public static throwError(error: string): any {
         alert(error);
